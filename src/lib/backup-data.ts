@@ -1,7 +1,7 @@
 // Backup data for Xbox Games API
 // This data will be used if the external API fails or returns poor quality data
 
-import { XboxGame } from '@/types';
+import { XboxGame } from "@/types";
 
 export const backupGames: XboxGame[] = [
   {
@@ -12,10 +12,10 @@ export const backupGames: XboxGame[] = [
     publishers: ["Microsoft Studios", "Xbox Game Studios"],
     releaseDates: {
       Japan: "Dec 8, 2021",
-      NorthAmerica: "Dec 8, 2021", 
+      NorthAmerica: "Dec 8, 2021",
       Europe: "Dec 8, 2021",
-      Australia: "Dec 8, 2021"
-    }
+      Australia: "Dec 8, 2021",
+    },
   },
   {
     id: 1002,
@@ -26,9 +26,9 @@ export const backupGames: XboxGame[] = [
     releaseDates: {
       Japan: "Nov 9, 2021",
       NorthAmerica: "Nov 9, 2021",
-      Europe: "Nov 9, 2021", 
-      Australia: "Nov 9, 2021"
-    }
+      Europe: "Nov 9, 2021",
+      Australia: "Nov 9, 2021",
+    },
   },
   {
     id: 1003,
@@ -40,8 +40,8 @@ export const backupGames: XboxGame[] = [
       Japan: "Aug 18, 2020",
       NorthAmerica: "Aug 18, 2020",
       Europe: "Aug 18, 2020",
-      Australia: "Aug 18, 2020"
-    }
+      Australia: "Aug 18, 2020",
+    },
   },
   {
     id: 1004,
@@ -53,8 +53,8 @@ export const backupGames: XboxGame[] = [
       Japan: "Mar 20, 2018",
       NorthAmerica: "Mar 20, 2018",
       Europe: "Mar 20, 2018",
-      Australia: "Mar 20, 2018"
-    }
+      Australia: "Mar 20, 2018",
+    },
   },
   {
     id: 1005,
@@ -66,8 +66,8 @@ export const backupGames: XboxGame[] = [
       Japan: "Sep 10, 2019",
       NorthAmerica: "Sep 10, 2019",
       Europe: "Sep 10, 2019",
-      Australia: "Sep 10, 2019"
-    }
+      Australia: "Sep 10, 2019",
+    },
   },
   {
     id: 1006,
@@ -79,8 +79,8 @@ export const backupGames: XboxGame[] = [
       Japan: "Oct 28, 2021",
       NorthAmerica: "Oct 28, 2021",
       Europe: "Oct 28, 2021",
-      Australia: "Oct 28, 2021"
-    }
+      Australia: "Oct 28, 2021",
+    },
   },
   {
     id: 1007,
@@ -92,8 +92,8 @@ export const backupGames: XboxGame[] = [
       Japan: "Mar 11, 2020",
       NorthAmerica: "Mar 11, 2020",
       Europe: "Mar 11, 2020",
-      Australia: "Mar 11, 2020"
-    }
+      Australia: "Mar 11, 2020",
+    },
   },
   {
     id: 1008,
@@ -105,8 +105,8 @@ export const backupGames: XboxGame[] = [
       Japan: "Aug 25, 2021",
       NorthAmerica: "Aug 25, 2021",
       Europe: "Aug 25, 2021",
-      Australia: "Aug 25, 2021"
-    }
+      Australia: "Aug 25, 2021",
+    },
   },
   {
     id: 1009,
@@ -118,8 +118,8 @@ export const backupGames: XboxGame[] = [
       Japan: "Sep 27, 2022",
       NorthAmerica: "Sep 27, 2022",
       Europe: "Sep 27, 2022",
-      Australia: "Sep 27, 2022"
-    }
+      Australia: "Sep 27, 2022",
+    },
   },
   {
     id: 1010,
@@ -131,8 +131,8 @@ export const backupGames: XboxGame[] = [
       Japan: "Sep 6, 2023",
       NorthAmerica: "Sep 6, 2023",
       Europe: "Sep 6, 2023",
-      Australia: "Sep 6, 2023"
-    }
+      Australia: "Sep 6, 2023",
+    },
   },
   {
     id: 1011,
@@ -144,8 +144,8 @@ export const backupGames: XboxGame[] = [
       Japan: "Nov 11, 2014",
       NorthAmerica: "Nov 11, 2014",
       Europe: "Nov 11, 2014",
-      Australia: "Nov 11, 2014"
-    }
+      Australia: "Nov 11, 2014",
+    },
   },
   {
     id: 1012,
@@ -157,23 +157,23 @@ export const backupGames: XboxGame[] = [
       Japan: "Nov 18, 2011",
       NorthAmerica: "Nov 18, 2011",
       Europe: "Nov 18, 2011",
-      Australia: "Nov 18, 2011"
-    }
-  }
+      Australia: "Nov 18, 2011",
+    },
+  },
 ];
 
 export const getGenreList = (): string[] => {
   const genres = new Set<string>();
-  backupGames.forEach(game => {
-    game.genre.forEach(g => genres.add(g));
+  backupGames.forEach((game) => {
+    game.genre.forEach((g) => genres.add(g));
   });
   return Array.from(genres).sort();
 };
 
 export const getDeveloperList = (): string[] => {
   const developers = new Set<string>();
-  backupGames.forEach(game => {
-    game.developers.forEach(dev => developers.add(dev));
+  backupGames.forEach((game) => {
+    game.developers.forEach((dev) => developers.add(dev));
   });
   return Array.from(developers).sort();
 };
