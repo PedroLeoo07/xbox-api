@@ -12,8 +12,6 @@ export default function LoadingSpinner({
   className = "",
 }: LoadingSpinnerProps) {
   const sizeClass = size === "lg" ? "spinner-lg" : "spinner";
-  
-  return (
-    <div className={`${sizeClass} ${className}`} />
-  );
+
+  return <div className={`${sizeClass} ${className}`} />;
 }
