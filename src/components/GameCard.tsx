@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { XboxGame } from '@/types';
-import Image from 'next/image';
+import { XboxGame } from "@/types";
+import Image from "next/image";
 
 interface GameCardProps {
   game: XboxGame;
@@ -9,9 +9,13 @@ interface GameCardProps {
   showLastPlayed?: boolean;
 }
 
-export default function GameCard({ game, onClick, showLastPlayed = false }: GameCardProps) {
+export default function GameCard({
+  game,
+  onClick,
+  showLastPlayed = false,
+}: GameCardProps) {
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       onClick?.();
     }
@@ -23,19 +27,19 @@ export default function GameCard({ game, onClick, showLastPlayed = false }: Game
     const diffTime = Math.abs(now.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 1) return 'Ontem';
+    if (diffDays === 1) return "Ontem";
     if (diffDays <= 7) return `${diffDays} dias atrás`;
     if (diffDays <= 30) return `${Math.ceil(diffDays / 7)} semanas atrás`;
-    return date.toLocaleDateString('pt-BR');
+    return date.toLocaleDateString("pt-BR");
   };
 
   return (
-    <div 
-      className={`card ${onClick ? 'cursor-pointer' : ''}`}
+    <div
+      className={`card ${onClick ? "cursor-pointer" : ""}`}
       onClick={onClick}
       onKeyPress={handleKeyPress}
       tabIndex={onClick ? 0 : undefined}
-      role={onClick ? 'button' : undefined}
+      role={onClick ? "button" : undefined}
     >
       <div className="card-header">
         <div className="flex gap-3">
@@ -90,7 +94,7 @@ export default function GameCard({ game, onClick, showLastPlayed = false }: Game
           <div className="mt-2 text-sm">
             <span className="text-muted">Lançamento:</span>
             <span className="ml-2">
-              {new Date(game.releaseDate).toLocaleDateString('pt-BR')}
+              {new Date(game.releaseDate).toLocaleDateString("pt-BR")}
             </span>
           </div>
         )}
