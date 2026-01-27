@@ -1,1 +1,1 @@
-export type * from './xbox';
+export type * from "./xbox";
