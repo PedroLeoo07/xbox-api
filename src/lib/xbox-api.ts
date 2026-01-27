@@ -30,13 +30,18 @@ async function fetchGamesAPI(): Promise<XboxGame[]> {
     const response = await fetch(GAMES_API_URL);
 
     if (!response.ok) {
-      throw new XboxAPIError(
-        `API request failed: ${response.status} ${response.statusText}`,
-        response.status,
+      console.warn(
+        `⚠️  API request failed: ${response.status}, using backup data`,
       );
+      return backupGames;
     }
 
     const data = await response.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
+      console.warn("⚠️  API returned empty or invalid data, using backup");
+      return backupGames;
+    }
 
     // Filter and clean the data to improve quality
     const cleanedData = data
@@ -45,27 +50,54 @@ async function fetchGamesAPI(): Promise<XboxGame[]> {
         return (
           game.name &&
           game.name.trim() !== "" &&
-          (game.genre.length > 0 || game.developers.length > 0) &&
-          game.developers.some((dev: string) => dev.trim() !== "") &&
-          game.publishers.some((pub: string) => pub.trim() !== "")
+          game.name.length > 1 &&
+          game.developers &&
+          Array.isArray(game.developers) &&
+          game.developers.length > 0 &&
+          game.publishers &&
+          Array.isArray(game.publishers) &&
+          game.publishers.length > 0 &&
+          game.developers.some((dev: string) => dev && dev.trim() !== "") &&
+          game.publishers.some((pub: string) => pub && pub.trim() !== "")
         );
       })
       .map((game: any) => ({
         ...game,
         // Add fallback genre if empty
-        genre: game.genre.length > 0 ? game.genre : ["Outros"],
+        genre:
+          game.genre && game.genre.length > 0
+            ? game.genre.filter((g: string) => g && g.trim() !== "")
+            : ["Outros"],
         // Clean up strings
         name: game.name.trim(),
-        developers: game.developers.filter((dev: string) => dev.trim() !== ""),
-        publishers: game.publishers.filter((pub: string) => pub.trim() !== ""),
+        developers: game.developers.filter(
+          (dev: string) => dev && dev.trim() !== "",
+        ),
+        publishers: game.publishers.filter(
+          (pub: string) => pub && pub.trim() !== "",
+        ),
       }));
+
+    console.log(`✅ Processed ${cleanedData.length} games from API`);
+
+    // If we don't have enough quality games, supplement with backup
+    if (cleanedData.length < 20) {
+      console.log("📊 Supplementing with backup games");
+      const supplementedData = [...cleanedData, ...backupGames];
+      // Remove duplicates based on name
+      const uniqueGames = supplementedData.filter(
+        (game, index, arr) =>
+          arr.findIndex(
+            (g) => g.name.toLowerCase() === game.name.toLowerCase(),
+          ) === index,
+      );
+      return uniqueGames;
+    }
 
     return cleanedData;
   } catch (error) {
-    if (error instanceof XboxAPIError) {
-      throw error;
-    }
-    throw new XboxAPIError("Network error occurred while fetching games");
+    console.error("❌ API fetch failed, using backup data:", error);
+    return backupGames;
   }
 }
 
