@@ -15,39 +15,71 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-dark border-b border-gray-700 sticky top-0 z-50">
-      <div className="container">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl">🎮</span>
-              <span className="text-xl font-bold text-primary">Xbox API</span>
-            </Link>
-          </div>
+    <nav className="sticky top-0 z-50">
+      <div
+        className="bg-card backdrop-filter backdrop-blur-lg border-b border-solid"
+        style={{
+          backgroundColor: 'var(--bg-card)',
+          borderColor: 'var(--border)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)'
+        }}
+      >
+        <div className="container">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center gap-3 group">
+                <div className="text-2xl group-hover:scale-110 transition-transform">
+                  🎮
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xl font-bold text-primary bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
+                    Xbox API
+                  </span>
+                  <span className="text-xs text-muted">Gaming Hub</span>
+                </div>
+              </Link>
+            </div>
 
-          <div className="hidden md:block">
-            <div className="flex items-baseline space-x-4">
-              {navigation.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`
-                      px-3 py-2 rounded-md text-sm font-medium transition-colors
-                      flex items-center gap-2
-                      ${
-                        isActive
-                          ? "bg-primary text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                      }
-                    `}
-                  >
-                    <span>{item.icon}</span>
-                    {item.name}
-                  </Link>
-                );
-              })}
+            {/* Desktop Navigation */}
+            <div className="hidden md:block">
+              <div className="flex items-center gap-2">
+                {navigation.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={`
+                        relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                        flex items-center gap-2 group
+                        ${
+                          isActive
+                            ? "bg-xbox-green text-white shadow-lg"
+                            : "text-gray-300 hover:bg-glass hover:text-white"
+                        }
+                      `}
+                      style={isActive ? {
+                        background: 'linear-gradient(135deg, var(--xbox-green), var(--xbox-green-dark))',
+                        boxShadow: 'var(--glow-green)'
+                      } : {}}
+                    >
+                      <span className="text-base group-hover:scale-110 transition-transform">
+                        {item.icon}
+                      </span>
+                      <span>{item.name}</span>
+                      {isActive && (
+                        <div
+                          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full"
+                          style={{ backgroundColor: 'white' }}
+                        />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
             </div>
           </div>
 
