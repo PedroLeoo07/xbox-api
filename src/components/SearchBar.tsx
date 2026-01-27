@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import LoadingSpinner from './ui/LoadingSpinner';
+import { useState } from "react";
+import LoadingSpinner from "./ui/LoadingSpinner";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -10,13 +10,13 @@ interface SearchBarProps {
   className?: string;
 }
 
-export default function SearchBar({ 
-  onSearch, 
-  placeholder = 'Buscar...', 
+export default function SearchBar({
+  onSearch,
+  placeholder = "Buscar...",
   isLoading = false,
-  className = ''
+  className = "",
 }: SearchBarProps) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ export default function SearchBar({
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSubmit(e as any);
     }
   };
@@ -54,7 +54,7 @@ export default function SearchBar({
         disabled={isLoading || !query.trim()}
         className="btn btn-primary px-6"
       >
-        {isLoading ? <LoadingSpinner size="sm" /> : '🔍'}
+        {isLoading ? <LoadingSpinner size="sm" /> : "🔍"}
       </button>
     </form>
   );
