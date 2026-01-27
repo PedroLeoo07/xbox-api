@@ -188,21 +188,48 @@ export const gamesAPI = {
 
   async searchGames(query: string): Promise<ApiResponse<XboxGame[]>> {
     try {
+      if (!query || query.trim().length < 2) {
+        return {
+          success: false,
+          error: "Query deve ter pelo menos 2 caracteres",
+          data: [],
+        };
+      }
+
       const allGames = await fetchGamesAPI();
+      const searchTerm = query.toLowerCase().trim();
+
       const filteredGames = allGames.filter(
         (game) =>
-          game.name.toLowerCase().includes(query.toLowerCase()) ||
+          game.name.toLowerCase().includes(searchTerm) ||
           game.developers.some((dev) =>
-            dev.toLowerCase().includes(query.toLowerCase()),
+            dev.toLowerCase().includes(searchTerm),
           ) ||
           game.publishers.some((pub) =>
-            pub.toLowerCase().includes(query.toLowerCase()),
+            pub.toLowerCase().includes(searchTerm),
           ) ||
-          game.genre.some((genre) =>
-            genre.toLowerCase().includes(query.toLowerCase()),
-          ),
+          game.genre.some((genre) => genre.toLowerCase().includes(searchTerm)),
       );
-      return { success: true, data: filteredGames };
+
+      // Limit results for performance and sort by relevance
+      const sortedResults = filteredGames
+        .sort((a, b) => {
+          // Exact name matches first
+          if (
+            a.name.toLowerCase().includes(searchTerm) &&
+            !b.name.toLowerCase().includes(searchTerm)
+          )
+            return -1;
+          if (
+            !a.name.toLowerCase().includes(searchTerm) &&
+            b.name.toLowerCase().includes(searchTerm)
+          )
+            return 1;
+          return a.name.localeCompare(b.name);
+        })
+        .slice(0, 100); // Limit to 100 results
+
+      return { success: true, data: sortedResults };
     } catch (error) {
       return {
         success: false,
