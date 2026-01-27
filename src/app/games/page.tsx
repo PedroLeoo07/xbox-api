@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { SearchBar, GameCard, LoadingSpinner } from "@/components";
+import { SearchBar, GameCard, LoadingSpinner, StatCard } from "@/components";
 import { gamesAPI } from "@/lib";
 import { XboxGame } from "@/types";
 
