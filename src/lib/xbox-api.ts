@@ -36,7 +36,30 @@ async function fetchGamesAPI(): Promise<XboxGame[]> {
     }
 
     const data = await response.json();
-    return data;
+
+    // Filter and clean the data to improve quality
+    const cleanedData = data
+      .filter((game: any) => {
+        // Filter out games with insufficient data
+        return (
+          game.name &&
+          game.name.trim() !== "" &&
+          (game.genre.length > 0 || game.developers.length > 0) &&
+          game.developers.some((dev: string) => dev.trim() !== "") &&
+          game.publishers.some((pub: string) => pub.trim() !== "")
+        );
+      })
+      .map((game: any) => ({
+        ...game,
+        // Add fallback genre if empty
+        genre: game.genre.length > 0 ? game.genre : ["Outros"],
+        // Clean up strings
+        name: game.name.trim(),
+        developers: game.developers.filter((dev: string) => dev.trim() !== ""),
+        publishers: game.publishers.filter((pub: string) => pub.trim() !== ""),
+      }));
+
+    return cleanedData;
   } catch (error) {
     if (error instanceof XboxAPIError) {
       throw error;
