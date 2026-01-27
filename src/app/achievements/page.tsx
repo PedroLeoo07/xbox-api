@@ -5,7 +5,7 @@ import { SearchBar, AchievementCard, LoadingSpinner } from "@/components";
 import { achievementsAPI } from "@/lib";
 import { Achievement } from "@/types";
 
-export default function AchievementsPage() {
+const AchievementsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -294,15 +294,18 @@ export default function AchievementsPage() {
       ? achievements
       : mockAchievements;
 
-  const totalGamerscore = displayedAchievements.reduce((sum, achievement) => {
-    const gamerscore = achievement.rewards?.find(
-      (r) => r.type === "Gamerscore",
-    );
-    return sum + parseInt(gamerscore?.value || "0");
-  }, 0);
+  const totalGamerscore = displayedAchievements.reduce(
+    (sum: number, achievement: Achievement) => {
+      const gamerscore = achievement.rewards?.find(
+        (r) => r.type === "Gamerscore",
+      );
+      return sum + parseInt(gamerscore?.value || "0");
+    },
+    0,
+  );
 
   const unlockedCount = displayedAchievements.filter(
-    (a) => a.progression.achievementState === "Achieved",
+    (a: Achievement) => a.progression.achievementState === "Achieved",
   ).length;
 
   return (
@@ -394,7 +397,7 @@ export default function AchievementsPage() {
           </div>
         ) : displayedAchievements.length > 0 ? (
           <div className="grid grid-2 gap-6">
-            {displayedAchievements.map((achievement) => (
+            {displayedAchievements.map((achievement: Achievement) => (
               <AchievementCard
                 key={achievement.id}
                 achievement={achievement}
@@ -516,4 +519,6 @@ export default function AchievementsPage() {
       </section>
     </div>
   );
-}
+};
+
+export default AchievementsPage;
