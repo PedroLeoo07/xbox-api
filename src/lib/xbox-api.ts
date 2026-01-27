@@ -1,21 +1,34 @@
-import { ApiResponse, XboxProfile, XboxGame, Achievement, GameStats } from '@/types';
+import {
+  ApiResponse,
+  XboxProfile,
+  XboxGame,
+  Achievement,
+  GameStats,
+} from "@/types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_XBOX_API_URL || 'https://api.example.com';
+const BASE_URL =
+  process.env.NEXT_PUBLIC_XBOX_API_URL || "https://api.example.com";
 const API_KEY = process.env.NEXT_PUBLIC_XBOX_API_KEY;
 
 class XboxAPIError extends Error {
-  constructor(message: string, public statusCode?: number) {
+  constructor(
+    message: string,
+    public statusCode?: number,
+  ) {
     super(message);
-    this.name = 'XboxAPIError';
+    this.name = "XboxAPIError";
   }
 }
 
-async function fetchWithAuth(endpoint: string, options: RequestInit = {}): Promise<Response> {
+async function fetchWithAuth(
+  endpoint: string,
+  options: RequestInit = {},
+): Promise<Response> {
   const url = `${BASE_URL}${endpoint}`;
-  
+
   const headers: HeadersInit = {
-    'Content-Type': 'application/json',
-    ...(API_KEY && { 'Authorization': `Bearer ${API_KEY}` }),
+    "Content-Type": "application/json",
+    ...(API_KEY && { Authorization: `Bearer ${API_KEY}` }),
     ...options.headers,
   };
 
@@ -28,7 +41,7 @@ async function fetchWithAuth(endpoint: string, options: RequestInit = {}): Promi
     if (!response.ok) {
       throw new XboxAPIError(
         `API request failed: ${response.status} ${response.statusText}`,
-        response.status
+        response.status,
       );
     }
 
@@ -37,7 +50,7 @@ async function fetchWithAuth(endpoint: string, options: RequestInit = {}): Promi
     if (error instanceof XboxAPIError) {
       throw error;
     }
-    throw new XboxAPIError('Network error occurred');
+    throw new XboxAPIError("Network error occurred");
   }
 }
 
@@ -45,14 +58,17 @@ async function fetchWithAuth(endpoint: string, options: RequestInit = {}): Promi
 export const profileAPI = {
   async getProfile(gamertag: string): Promise<ApiResponse<XboxProfile>> {
     try {
-      const response = await fetchWithAuth(`/profile/${encodeURIComponent(gamertag)}`);
+      const response = await fetchWithAuth(
+        `/profile/${encodeURIComponent(gamertag)}`,
+      );
       const data = await response.json();
       return { success: true, data };
     } catch (error) {
       return {
         success: false,
         data: {} as XboxProfile,
-        error: error instanceof Error ? error.message : 'Failed to fetch profile',
+        error:
+          error instanceof Error ? error.message : "Failed to fetch profile",
       };
     }
   },
@@ -66,21 +82,25 @@ export const profileAPI = {
       return {
         success: false,
         data: {} as XboxProfile,
-        error: error instanceof Error ? error.message : 'Failed to fetch profile',
+        error:
+          error instanceof Error ? error.message : "Failed to fetch profile",
       };
     }
   },
 
   async searchProfiles(query: string): Promise<ApiResponse<XboxProfile[]>> {
     try {
-      const response = await fetchWithAuth(`/profile/search?q=${encodeURIComponent(query)}`);
+      const response = await fetchWithAuth(
+        `/profile/search?q=${encodeURIComponent(query)}`,
+      );
       const data = await response.json();
       return { success: true, data };
     } catch (error) {
       return {
         success: false,
         data: [],
-        error: error instanceof Error ? error.message : 'Failed to search profiles',
+        error:
+          error instanceof Error ? error.message : "Failed to search profiles",
       };
     }
   },
@@ -97,7 +117,10 @@ export const gamesAPI = {
       return {
         success: false,
         data: [],
-        error: error instanceof Error ? error.message : 'Failed to fetch recent games',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch recent games",
       };
     }
   },
@@ -111,21 +134,27 @@ export const gamesAPI = {
       return {
         success: false,
         data: {} as XboxGame,
-        error: error instanceof Error ? error.message : 'Failed to fetch game details',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch game details",
       };
     }
   },
 
   async searchGames(query: string): Promise<ApiResponse<XboxGame[]>> {
     try {
-      const response = await fetchWithAuth(`/games/search?q=${encodeURIComponent(query)}`);
+      const response = await fetchWithAuth(
+        `/games/search?q=${encodeURIComponent(query)}`,
+      );
       const data = await response.json();
       return { success: true, data };
     } catch (error) {
       return {
         success: false,
         data: [],
-        error: error instanceof Error ? error.message : 'Failed to search games',
+        error:
+          error instanceof Error ? error.message : "Failed to search games",
       };
     }
   },
@@ -133,10 +162,13 @@ export const gamesAPI = {
 
 // Achievements API
 export const achievementsAPI = {
-  async getAchievements(xuid: string, titleId?: string): Promise<ApiResponse<Achievement[]>> {
+  async getAchievements(
+    xuid: string,
+    titleId?: string,
+  ): Promise<ApiResponse<Achievement[]>> {
     try {
-      const endpoint = titleId 
-        ? `/achievements/${xuid}/${titleId}` 
+      const endpoint = titleId
+        ? `/achievements/${xuid}/${titleId}`
         : `/achievements/${xuid}`;
       const response = await fetchWithAuth(endpoint);
       const data = await response.json();
@@ -145,26 +177,39 @@ export const achievementsAPI = {
       return {
         success: false,
         data: [],
-        error: error instanceof Error ? error.message : 'Failed to fetch achievements',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch achievements",
       };
     }
   },
 
-  async getAchievementDetails(xuid: string, achievementId: string): Promise<ApiResponse<Achievement>> {
+  async getAchievementDetails(
+    xuid: string,
+    achievementId: string,
+  ): Promise<ApiResponse<Achievement>> {
     try {
-      const response = await fetchWithAuth(`/achievements/${xuid}/details/${achievementId}`);
+      const response = await fetchWithAuth(
+        `/achievements/${xuid}/details/${achievementId}`,
+      );
       const data = await response.json();
       return { success: true, data };
     } catch (error) {
       return {
         success: false,
         data: {} as Achievement,
-        error: error instanceof Error ? error.message : 'Failed to fetch achievement details',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch achievement details",
       };
     }
   },
 
-  async getRecentAchievements(xuid: string): Promise<ApiResponse<Achievement[]>> {
+  async getRecentAchievements(
+    xuid: string,
+  ): Promise<ApiResponse<Achievement[]>> {
     try {
       const response = await fetchWithAuth(`/achievements/${xuid}/recent`);
       const data = await response.json();
@@ -173,7 +218,10 @@ export const achievementsAPI = {
       return {
         success: false,
         data: [],
-        error: error instanceof Error ? error.message : 'Failed to fetch recent achievements',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch recent achievements",
       };
     }
   },
@@ -181,7 +229,10 @@ export const achievementsAPI = {
 
 // Stats API
 export const statsAPI = {
-  async getGameStats(xuid: string, titleId: string): Promise<ApiResponse<GameStats[]>> {
+  async getGameStats(
+    xuid: string,
+    titleId: string,
+  ): Promise<ApiResponse<GameStats[]>> {
     try {
       const response = await fetchWithAuth(`/stats/${xuid}/${titleId}`);
       const data = await response.json();
@@ -190,7 +241,8 @@ export const statsAPI = {
       return {
         success: false,
         data: [],
-        error: error instanceof Error ? error.message : 'Failed to fetch game stats',
+        error:
+          error instanceof Error ? error.message : "Failed to fetch game stats",
       };
     }
   },
@@ -204,7 +256,10 @@ export const statsAPI = {
       return {
         success: false,
         data: [],
-        error: error instanceof Error ? error.message : 'Failed to fetch overall stats',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch overall stats",
       };
     }
   },

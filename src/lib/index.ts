@@ -1,1 +1,1 @@
-export * from './xbox-api';
+export * from "./xbox-api";
