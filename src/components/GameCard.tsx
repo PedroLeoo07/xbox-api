@@ -18,30 +18,37 @@ export default function GameCard({ game, onClick }: GameCardProps) {
 
   const getAvailableRegions = () => {
     const regions = [];
-    if (game.releaseDates?.NorthAmerica && game.releaseDates.NorthAmerica !== "Unreleased")
+    if (
+      game.releaseDates?.NorthAmerica &&
+      game.releaseDates.NorthAmerica !== "Unreleased"
+    )
       regions.push("América do Norte");
-    if (game.releaseDates?.Europe && game.releaseDates.Europe !== "Unreleased") 
+    if (game.releaseDates?.Europe && game.releaseDates.Europe !== "Unreleased")
       regions.push("Europa");
-    if (game.releaseDates?.Japan && game.releaseDates.Japan !== "Unreleased") 
+    if (game.releaseDates?.Japan && game.releaseDates.Japan !== "Unreleased")
       regions.push("Japão");
-    if (game.releaseDates?.Australia && game.releaseDates.Australia !== "Unreleased") 
+    if (
+      game.releaseDates?.Australia &&
+      game.releaseDates.Australia !== "Unreleased"
+    )
       regions.push("Austrália");
     return regions;
   };
 
   const getEarliestReleaseDate = () => {
     if (!game.releaseDates) return null;
-    
+
     const dates = [
       { region: "América do Norte", date: game.releaseDates.NorthAmerica },
       { region: "Europa", date: game.releaseDates.Europe },
       { region: "Japão", date: game.releaseDates.Japan },
       { region: "Austrália", date: game.releaseDates.Australia },
-    ].filter((item) => 
-      item.date && 
-      item.date !== "Unreleased" && 
-      item.date !== "TBA" && 
-      item.date.trim() !== ""
+    ].filter(
+      (item) =>
+        item.date &&
+        item.date !== "Unreleased" &&
+        item.date !== "TBA" &&
+        item.date.trim() !== "",
     );
 
     if (dates.length === 0) return null;
