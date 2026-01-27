@@ -4,3 +4,4 @@ export { default as ProfileCard } from "./ProfileCard";
 export { default as GameCard } from "./GameCard";
 export { default as AchievementCard } from "./AchievementCard";
 export { default as LoadingSpinner } from "./ui/LoadingSpinner";
+export { default as StatCard } from "./ui/StatCard";
