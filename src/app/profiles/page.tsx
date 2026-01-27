@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { SearchBar, ProfileCard, LoadingSpinner } from "@/components";
 import { profileAPI } from "@/lib";
 import { XboxProfile } from "@/types";

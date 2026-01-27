@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { XboxProfile } from "@/types";
 import Image from "next/image";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { SearchBar, AchievementCard, LoadingSpinner } from "@/components";
 import { achievementsAPI } from "@/lib";
 import { Achievement } from "@/types";

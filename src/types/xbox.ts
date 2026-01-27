@@ -1,4 +1,18 @@
-// Xbox API Types
+// Xbox API Types - Based on real API structure from https://api.sampleapis.com/xbox/games
+export interface XboxGame {
+  id: number;
+  name: string;
+  genre: string[];
+  developers: string[];
+  publishers: string[];
+  releaseDates: {
+    Japan: string;
+    NorthAmerica: string;
+    Europe: string;
+    Australia: string;
+  };
+}
+
 export interface XboxProfile {
   xuid: string;
   gamertag: string;
@@ -17,25 +31,6 @@ export interface XboxProfile {
   watermarks?: string[];
   avatar?: string;
   gameDisplayPicRaw?: string;
-}
-
-export interface XboxGame {
-  titleId: string;
-  name: string;
-  type: string;
-  devices?: string[];
-  displayImage?: string;
-  description?: string;
-  publisherName?: string;
-  developerName?: string;
-  releaseDate?: string;
-  category?: string;
-  parentId?: string;
-  titleHistory?: {
-    titleId: string;
-    timestamp: string;
-    deviceType: string;
-  };
 }
 
 export interface Achievement {

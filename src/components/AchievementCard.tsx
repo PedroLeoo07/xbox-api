@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Achievement } from "@/types";
 import Image from "next/image";
 

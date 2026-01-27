@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SearchBar,
   ProfileCard,
@@ -43,30 +43,30 @@ export default function HomePage() {
 
   const mockGames: XboxGame[] = [
     {
-      titleId: "219630713",
+      id: 1,
       name: "Halo Infinite",
-      type: "Game",
-      devices: ["Xbox Series X|S", "Xbox One", "PC"],
-      displayImage: "/api/placeholder/200/200",
-      description:
-        "A lendária franquia Halo retorna com a campanha Master Chief mais ampla até hoje.",
-      publisherName: "Microsoft Studios",
-      developerName: "343 Industries",
-      releaseDate: "2021-12-08",
-      category: "Shooter",
+      genre: ["Shooter", "Action"],
+      developers: ["343 Industries"],
+      publishers: ["Microsoft Studios"],
+      releaseDates: {
+        Japan: "2021-12-08",
+        NorthAmerica: "2021-12-08",
+        Europe: "2021-12-08",
+        Australia: "2021-12-08",
+      },
     },
     {
-      titleId: "1738253896",
+      id: 2,
       name: "Forza Horizon 5",
-      type: "Game",
-      devices: ["Xbox Series X|S", "Xbox One", "PC"],
-      displayImage: "/api/placeholder/200/200",
-      description:
-        "Explore os mundos vibrantes e em constante evolução do México.",
-      publisherName: "Microsoft Studios",
-      developerName: "Playground Games",
-      releaseDate: "2021-11-09",
-      category: "Racing",
+      genre: ["Racing", "Sports"],
+      developers: ["Playground Games"],
+      publishers: ["Microsoft Studios"],
+      releaseDates: {
+        Japan: "2021-11-09",
+        NorthAmerica: "2021-11-09",
+        Europe: "2021-11-09",
+        Australia: "2021-11-09",
+      },
     },
   ];
 
@@ -205,7 +205,7 @@ export default function HomePage() {
         <div className="grid grid-2 gap-6">
           {featuredGames.map((game) => (
             <GameCard
-              key={game.titleId}
+              key={game.id}
               game={game}
               onClick={() => console.log("Ver jogo:", game.name)}
             />

@@ -6,6 +6,10 @@ import {
   GameStats,
 } from "@/types";
 
+// Xbox Games API endpoint
+const GAMES_API_URL = "https://api.sampleapis.com/xbox/games";
+
+// Placeholder for other endpoints (for demo purposes)
 const BASE_URL =
   process.env.NEXT_PUBLIC_XBOX_API_URL || "https://api.example.com";
 const API_KEY = process.env.NEXT_PUBLIC_XBOX_API_KEY;
@@ -17,6 +21,27 @@ class XboxAPIError extends Error {
   ) {
     super(message);
     this.name = "XboxAPIError";
+  }
+}
+
+async function fetchGamesAPI(): Promise<XboxGame[]> {
+  try {
+    const response = await fetch(GAMES_API_URL);
+
+    if (!response.ok) {
+      throw new XboxAPIError(
+        `API request failed: ${response.status} ${response.statusText}`,
+        response.status,
+      );
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    if (error instanceof XboxAPIError) {
+      throw error;
+    }
+    throw new XboxAPIError("Network error occurred while fetching games");
   }
 }
 
@@ -108,11 +133,111 @@ export const profileAPI = {
 
 // Games API
 export const gamesAPI = {
-  async getRecentGames(xuid: string): Promise<ApiResponse<XboxGame[]>> {
+  async getAllGames(): Promise<ApiResponse<XboxGame[]>> {
     try {
-      const response = await fetchWithAuth(`/games/recent/${xuid}`);
-      const data = await response.json();
+      const data = await fetchGamesAPI();
       return { success: true, data };
+    } catch (error) {
+      return {
+        success: false,
+        data: [],
+        error: error instanceof Error ? error.message : "Failed to fetch games",
+      };
+    }
+  },
+
+  async getGameById(id: number): Promise<ApiResponse<XboxGame | null>> {
+    try {
+      const allGames = await fetchGamesAPI();
+      const game = allGames.find((g) => g.id === id);
+      return {
+        success: true,
+        data: game || null,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        data: null,
+        error: error instanceof Error ? error.message : "Failed to fetch game",
+      };
+    }
+  },
+
+  async searchGames(query: string): Promise<ApiResponse<XboxGame[]>> {
+    try {
+      const allGames = await fetchGamesAPI();
+      const filteredGames = allGames.filter(
+        (game) =>
+          game.name.toLowerCase().includes(query.toLowerCase()) ||
+          game.developers.some((dev) =>
+            dev.toLowerCase().includes(query.toLowerCase()),
+          ) ||
+          game.publishers.some((pub) =>
+            pub.toLowerCase().includes(query.toLowerCase()),
+          ) ||
+          game.genre.some((genre) =>
+            genre.toLowerCase().includes(query.toLowerCase()),
+          ),
+      );
+      return { success: true, data: filteredGames };
+    } catch (error) {
+      return {
+        success: false,
+        data: [],
+        error:
+          error instanceof Error ? error.message : "Failed to search games",
+      };
+    }
+  },
+
+  async getGamesByGenre(genre: string): Promise<ApiResponse<XboxGame[]>> {
+    try {
+      const allGames = await fetchGamesAPI();
+      const filteredGames = allGames.filter((game) =>
+        game.genre.some((g) => g.toLowerCase().includes(genre.toLowerCase())),
+      );
+      return { success: true, data: filteredGames };
+    } catch (error) {
+      return {
+        success: false,
+        data: [],
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch games by genre",
+      };
+    }
+  },
+
+  async getGamesByDeveloper(
+    developer: string,
+  ): Promise<ApiResponse<XboxGame[]>> {
+    try {
+      const allGames = await fetchGamesAPI();
+      const filteredGames = allGames.filter((game) =>
+        game.developers.some((dev) =>
+          dev.toLowerCase().includes(developer.toLowerCase()),
+        ),
+      );
+      return { success: true, data: filteredGames };
+    } catch (error) {
+      return {
+        success: false,
+        data: [],
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch games by developer",
+      };
+    }
+  },
+
+  async getRecentGames(limit: number = 20): Promise<ApiResponse<XboxGame[]>> {
+    try {
+      const allGames = await fetchGamesAPI();
+      // Sort by ID (newer games have higher IDs) and limit results
+      const recentGames = allGames.sort((a, b) => b.id - a.id).slice(0, limit);
+      return { success: true, data: recentGames };
     } catch (error) {
       return {
         success: false,
@@ -125,36 +250,21 @@ export const gamesAPI = {
     }
   },
 
-  async getGameDetails(titleId: string): Promise<ApiResponse<XboxGame>> {
+  async getRandomGames(limit: number = 10): Promise<ApiResponse<XboxGame[]>> {
     try {
-      const response = await fetchWithAuth(`/games/details/${titleId}`);
-      const data = await response.json();
-      return { success: true, data };
-    } catch (error) {
-      return {
-        success: false,
-        data: {} as XboxGame,
-        error:
-          error instanceof Error
-            ? error.message
-            : "Failed to fetch game details",
-      };
-    }
-  },
-
-  async searchGames(query: string): Promise<ApiResponse<XboxGame[]>> {
-    try {
-      const response = await fetchWithAuth(
-        `/games/search?q=${encodeURIComponent(query)}`,
-      );
-      const data = await response.json();
-      return { success: true, data };
+      const allGames = await fetchGamesAPI();
+      // Shuffle array and get limited results
+      const shuffled = allGames.sort(() => 0.5 - Math.random());
+      const randomGames = shuffled.slice(0, limit);
+      return { success: true, data: randomGames };
     } catch (error) {
       return {
         success: false,
         data: [],
         error:
-          error instanceof Error ? error.message : "Failed to search games",
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch random games",
       };
     }
   },

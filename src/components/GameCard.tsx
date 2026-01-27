@@ -1,19 +1,14 @@
 "use client";
 
+import React from "react";
 import { XboxGame } from "@/types";
-import Image from "next/image";
 
 interface GameCardProps {
   game: XboxGame;
   onClick?: () => void;
-  showLastPlayed?: boolean;
 }
 
-export default function GameCard({
-  game,
-  onClick,
-  showLastPlayed = false,
-}: GameCardProps) {
+export default function GameCard({ game, onClick }: GameCardProps) {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -21,17 +16,32 @@ export default function GameCard({
     }
   };
 
-  const formatLastPlayed = (timestamp: string) => {
-    const date = new Date(timestamp);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 1) return "Ontem";
-    if (diffDays <= 7) return `${diffDays} dias atrás`;
-    if (diffDays <= 30) return `${Math.ceil(diffDays / 7)} semanas atrás`;
-    return date.toLocaleDateString("pt-BR");
+  const getAvailableRegions = () => {
+    const regions = [];
+    if (game.releaseDates.NorthAmerica !== "Unreleased")
+      regions.push("América do Norte");
+    if (game.releaseDates.Europe !== "Unreleased") regions.push("Europa");
+    if (game.releaseDates.Japan !== "Unreleased") regions.push("Japão");
+    if (game.releaseDates.Australia !== "Unreleased") regions.push("Austrália");
+    return regions;
   };
+
+  const getEarliestReleaseDate = () => {
+    const dates = [
+      { region: "América do Norte", date: game.releaseDates.NorthAmerica },
+      { region: "Europa", date: game.releaseDates.Europe },
+      { region: "Japão", date: game.releaseDates.Japan },
+      { region: "Austrália", date: game.releaseDates.Australia },
+    ].filter((item) => item.date !== "Unreleased" && item.date !== "TBA");
+
+    if (dates.length === 0) return null;
+
+    dates.sort((a, b) => a.date.localeCompare(b.date));
+    return dates[0];
+  };
+
+  const earliestRelease = getEarliestReleaseDate();
+  const availableRegions = getAvailableRegions();
 
   return (
     <div
@@ -42,80 +52,79 @@ export default function GameCard({
       role={onClick ? "button" : undefined}
     >
       <div className="card-header">
-        <div className="flex gap-3">
-          {game.displayImage && (
-            <div className="flex-shrink-0">
-              <Image
-                src={game.displayImage}
-                alt={`${game.name} cover`}
-                width={80}
-                height={80}
-                className="rounded border border-gray-600"
-              />
-            </div>
-          )}
+        <div className="flex justify-between items-start gap-3">
           <div className="flex-1 min-w-0">
             <h3 className="card-title truncate">{game.name}</h3>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {game.type && (
-                <span className="badge badge-secondary">{game.type}</span>
-              )}
-              {game.category && (
-                <span className="badge badge-secondary">{game.category}</span>
+            <div className="text-sm text-muted">ID: {game.id}</div>
+          </div>
+
+          {game.genre && game.genre.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {game.genre.slice(0, 2).map((genre, index) => (
+                <span key={index} className="badge badge-secondary text-xs">
+                  {genre}
+                </span>
+              ))}
+              {game.genre.length > 2 && (
+                <span className="badge badge-secondary text-xs">
+                  +{game.genre.length - 2}
+                </span>
               )}
             </div>
-          </div>
+          )}
         </div>
       </div>
 
       <div className="card-content">
-        {game.description && (
-          <p className="text-sm text-muted line-clamp-3 mb-3">
-            {game.description}
-          </p>
-        )}
-
-        <div className="grid grid-2 gap-2 text-sm">
-          {game.publisherName && (
+        <div className="grid grid-2 gap-3 text-sm">
+          {game.developers && game.developers.length > 0 && (
             <div>
-              <span className="text-muted">Publisher:</span>
-              <div className="font-semibold">{game.publisherName}</div>
+              <span className="text-muted">Desenvolvedor:</span>
+              <div className="font-semibold truncate">
+                {game.developers[0]}
+                {game.developers.length > 1 && (
+                  <span className="text-muted">
+                    {" "}
+                    +{game.developers.length - 1}
+                  </span>
+                )}
+              </div>
             </div>
           )}
-          {game.developerName && (
+
+          {game.publishers && game.publishers.length > 0 && (
             <div>
-              <span className="text-muted">Developer:</span>
-              <div className="font-semibold">{game.developerName}</div>
+              <span className="text-muted">Publisher:</span>
+              <div className="font-semibold truncate">
+                {game.publishers[0]}
+                {game.publishers.length > 1 && (
+                  <span className="text-muted">
+                    {" "}
+                    +{game.publishers.length - 1}
+                  </span>
+                )}
+              </div>
             </div>
           )}
         </div>
 
-        {game.releaseDate && (
-          <div className="mt-2 text-sm">
-            <span className="text-muted">Lançamento:</span>
-            <span className="ml-2">
-              {new Date(game.releaseDate).toLocaleDateString("pt-BR")}
-            </span>
-          </div>
-        )}
-
-        {showLastPlayed && game.titleHistory && (
-          <div className="mt-2 text-sm">
-            <span className="text-muted">Última vez jogado:</span>
-            <span className="ml-2 text-success">
-              {formatLastPlayed(game.titleHistory.timestamp)}
-            </span>
+        {earliestRelease && (
+          <div className="mt-3 text-sm">
+            <span className="text-muted">Primeiro lançamento:</span>
+            <div className="font-semibold">
+              {earliestRelease.date} ({earliestRelease.region})
+            </div>
           </div>
         )}
       </div>
 
-      {game.devices && game.devices.length > 0 && (
+      {availableRegions.length > 0 && (
         <div className="card-footer">
           <div className="flex flex-wrap gap-1">
             <span className="text-sm text-muted mr-2">Disponível em:</span>
-            {game.devices.map((device, index) => (
-              <span key={index} className="badge badge-secondary text-xs">
-                {device}
+            {availableRegions.map((region, index) => (
+              <span key={index} className="badge badge-success text-xs">
+                {region}
               </span>
             ))}
           </div>
