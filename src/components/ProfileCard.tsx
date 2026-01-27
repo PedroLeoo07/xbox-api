@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { XboxProfile } from '@/types';
-import Image from 'next/image';
+import { XboxProfile } from "@/types";
+import Image from "next/image";
 
 interface ProfileCardProps {
   profile: XboxProfile;
@@ -10,19 +10,19 @@ interface ProfileCardProps {
 
 export default function ProfileCard({ profile, onClick }: ProfileCardProps) {
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       onClick?.();
     }
   };
 
   return (
-    <div 
-      className={`card ${onClick ? 'cursor-pointer' : ''}`}
+    <div
+      className={`card ${onClick ? "cursor-pointer" : ""}`}
       onClick={onClick}
       onKeyPress={handleKeyPress}
       tabIndex={onClick ? 0 : undefined}
-      role={onClick ? 'button' : undefined}
+      role={onClick ? "button" : undefined}
     >
       <div className="card-header">
         <div className="flex items-center gap-3">
@@ -96,12 +96,16 @@ export default function ProfileCard({ profile, onClick }: ProfileCardProps) {
               />
               <div
                 className="w-4 h-4 rounded-full border border-gray-600"
-                style={{ backgroundColor: profile.preferredColor.secondaryColor }}
+                style={{
+                  backgroundColor: profile.preferredColor.secondaryColor,
+                }}
                 title="Cor secundária"
               />
               <div
                 className="w-4 h-4 rounded-full border border-gray-600"
-                style={{ backgroundColor: profile.preferredColor.tertiaryColor }}
+                style={{
+                  backgroundColor: profile.preferredColor.tertiaryColor,
+                }}
                 title="Cor terciária"
               />
             </div>
