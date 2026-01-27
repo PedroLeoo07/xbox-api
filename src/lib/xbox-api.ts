@@ -5,6 +5,7 @@ import {
   Achievement,
   GameStats,
 } from "@/types";
+import { backupGames } from "./backup-data";
 
 // Xbox Games API endpoint
 const GAMES_API_URL = "https://api.sampleapis.com/xbox/games";
