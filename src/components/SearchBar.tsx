@@ -26,15 +26,21 @@ export default function SearchBar({
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", gap: "0.75rem" }} className={className}>
+    <form
+      onSubmit={handleSubmit}
+      style={{ display: "flex", gap: "0.75rem" }}
+      className={className}
+    >
       <div style={{ flex: 1, position: "relative" }}>
-        <div style={{
-          position: "absolute",
-          left: "1rem",
-          top: "50%",
-          transform: "translateY(-50%)",
-          color: "var(--text-muted)",
-        }}>
+        <div
+          style={{
+            position: "absolute",
+            left: "1rem",
+            top: "50%",
+            transform: "translateY(-50%)",
+            color: "var(--text-muted)",
+          }}
+        >
           🔍
         </div>
         <input

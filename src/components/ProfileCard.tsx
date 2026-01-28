@@ -19,85 +19,115 @@ export default function ProfileCard({ profile, onClick }: ProfileCardProps) {
 
   return (
     <div
-      className={`card ${onClick ? "cursor-pointer" : ""}`}
+      className="card"
       onClick={onClick}
       onKeyPress={handleKeyPress}
       tabIndex={onClick ? 0 : undefined}
       role={onClick ? "button" : undefined}
+      style={{ cursor: onClick ? "pointer" : "default" }}
     >
-      <div className="card-header">
-        <div className="flex items-center gap-3">
-          <div className="avatar avatar-lg">
-            {profile.avatar ? (
-              <Image
-                src={profile.avatar}
-                alt={`${profile.gamertag} avatar`}
-                width={100}
-                height={100}
-                className="avatar avatar-lg"
-              />
-            ) : (
-              <div className="avatar avatar-lg flex items-center justify-center text-2xl font-bold">
-                {profile.gamertag.charAt(0).toUpperCase()}
-              </div>
-            )}
-          </div>
-          <div className="flex-1">
-            <h3 className="card-title">{profile.gamertag}</h3>
-            {profile.realName && (
-              <p className="card-subtitle">{profile.realName}</p>
-            )}
-          </div>
-          {profile.accountTier && (
-            <div className="badge badge-success">{profile.accountTier}</div>
+      <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
+        <div style={{
+          width: "64px",
+          height: "64px",
+          borderRadius: "50%",
+          overflow: "hidden",
+          background: "var(--bg-hover)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "1.5rem",
+          fontWeight: 700,
+        }}>
+          {profile.avatar ? (
+            <Image
+              src={profile.avatar}
+              alt={`${profile.gamertag} avatar`}
+              width={64}
+              height={64}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
+            profile.gamertag.charAt(0).toUpperCase()
           )}
         </div>
-      </div>
-
-      <div className="card-content">
-        <div className="grid grid-2 gap-2">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-primary">
-              {profile.gamerScore.toLocaleString()}
-            </div>
-            <div className="text-muted text-sm">Gamerscore</div>
-          </div>
-          {profile.tenure && (
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">
-                {profile.tenure}
-              </div>
-              <div className="text-muted text-sm">Anos no Xbox</div>
-            </div>
+        <div style={{ flex: 1 }}>
+          <h3 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "0.25rem" }}>
+            {profile.gamertag}
+          </h3>
+          {profile.realName && (
+            <p style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>
+              {profile.realName}
+            </p>
           )}
         </div>
-
-        {profile.bio && (
-          <div className="mt-3">
-            <p className="text-sm text-muted">{profile.bio}</p>
-          </div>
-        )}
-
-        {profile.location && (
-          <div className="mt-2">
-            <span className="text-sm text-muted">📍 {profile.location}</span>
+        {profile.accountTier && (
+          <div style={{
+            padding: "0.25rem 0.75rem",
+            borderRadius: "9999px",
+            background: "linear-gradient(135deg, var(--xbox-green), var(--xbox-green-dark))",
+            fontSize: "0.75rem",
+            fontWeight: 600,
+          }}>
+            {profile.accountTier}
           </div>
         )}
       </div>
 
-      {profile.preferredColor && (
-        <div className="card-footer">
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted">Cores favoritas:</span>
-            <div className="flex gap-1">
-              <div
-                className="w-4 h-4 rounded-full border border-gray-600"
-                style={{ backgroundColor: profile.preferredColor.primaryColor }}
-                title="Cor primária"
-              />
-              <div
-                className="w-4 h-4 rounded-full border border-gray-600"
-                style={{
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(2, 1fr)",
+        gap: "1rem",
+        marginBottom: "1rem",
+      }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{
+            fontSize: "1.75rem",
+            fontWeight: 700,
+            color: "var(--xbox-green-light)",
+            marginBottom: "0.25rem",
+          }}>
+            {profile.gamerScore.toLocaleString()}
+          </div>
+          <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
+            Gamerscore
+          </div>
+        </div>
+        {profile.tenure && (
+          <div style={{ textAlign: "center" }}>
+            <div style={{
+              fontSize: "1.75rem",
+              fontWeight: 700,
+              color: "var(--xbox-green-light)",
+              marginBottom: "0.25rem",
+            }}>
+              {profile.tenure}
+            </div>
+            <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
+              Anos no Xbox
+            </div>
+          </div>
+        )}
+      </div>
+
+      {profile.bio && (
+        <div style={{ marginTop: "1rem" }}>
+          <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>
+            {profile.bio}
+          </p>
+        </div>
+      )}
+
+      {profile.location && (
+        <div style={{ marginTop: "0.75rem" }}>
+          <span style={{ fontSize: "0.875rem", color: "var(--text-muted)" }}>
+            📍 {profile.location}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
                   backgroundColor: profile.preferredColor.secondaryColor,
                 }}
                 title="Cor secundária"

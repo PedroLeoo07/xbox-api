@@ -68,15 +68,15 @@ export default function HomePage() {
             }}>
               🎮 Gaming Hub
             </span>
-            
+
             <h1 className="hero-title">
               Explore o Universo Xbox
             </h1>
-            
+
             <p className="hero-subtitle">
               Descubra perfis, conquistas e estatísticas em tempo real com a plataforma Xbox API
             </p>
-            
+
             <div style={{ maxWidth: "600px", margin: "0 auto 2rem" }}>
               <SearchBar
                 onSearch={handleSearch}
@@ -84,7 +84,7 @@ export default function HomePage() {
                 isLoading={isLoading}
               />
             </div>
-            
+
             <div style={{
               display: "flex",
               gap: "2rem",
@@ -258,9 +258,9 @@ export default function HomePage() {
             animation: 'slideDown 0.8s ease-out',
           }}>
             <span style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}>🎮</span>
-            <span style={{ 
-              fontSize: '0.9rem', 
-              fontWeight: 700, 
+            <span style={{
+              fontSize: '0.9rem',
+              fontWeight: 700,
               color: '#16c716',
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
@@ -293,8 +293,8 @@ export default function HomePage() {
             Descubra um universo de possibilidades. Explore perfis, conquistas e estatísticas em tempo real com a mais avançada plataforma Xbox.
           </p>
 
-          <div style={{ 
-            maxWidth: '700px', 
+          <div style={{
+            maxWidth: '700px',
             margin: '0 auto 3rem',
             animation: 'scaleIn 1s ease-out',
           }}>
@@ -483,8 +483,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="card" style={{ 
-          textAlign: 'center', 
+        <section className="card" style={{
+          textAlign: 'center',
           padding: '4rem 2rem',
           background: 'radial-gradient(ellipse at center, rgba(16, 124, 16, 0.15) 0%, rgba(15, 15, 15, 0.95) 70%)',
           border: '1px solid rgba(16, 124, 16, 0.3)',

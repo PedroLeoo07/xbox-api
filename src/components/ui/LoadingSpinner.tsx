@@ -11,7 +11,19 @@ export default function LoadingSpinner({
   size = "md",
   className = "",
 }: LoadingSpinnerProps) {
-  const sizeClass = size === "lg" ? "spinner-lg" : "spinner";
+  const sizeMap = {
+    sm: "24px",
+    md: "40px",
+    lg: "60px",
+  };
 
-  return <div className={`${sizeClass} ${className}`} />;
+  return (
+    <div
+      className={`spinner ${className}`}
+      style={{
+        width: sizeMap[size],
+        height: sizeMap[size],
+      }}
+    />
+  );
 }
