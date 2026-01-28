@@ -22,18 +22,15 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={inter.className}>
         <Navbar />
-        <main className="min-h-screen">{children}</main>
-        <footer className="bg-darker border-t border-gray-700 py-8">
+        <main>{children}</main>
+        <footer className="footer">
           <div className="container">
-            <div className="text-center text-muted">
-              <p>
-                &copy; 2026 Xbox API Frontend. Feito com ❤️ para a comunidade
-                Xbox.
-              </p>
-              <p className="mt-2 text-sm">
-                Este projeto não é afiliado à Microsoft ou Xbox.
-              </p>
-            </div>
+            <p className="footer-text">
+              &copy; 2026 Xbox API Frontend. Feito com ❤️ para a comunidade Xbox.
+            </p>
+            <p className="footer-text">
+              Este projeto não é afiliado à Microsoft ou Xbox.
+            </p>
           </div>
         </footer>
       </body>
