@@ -26,7 +26,8 @@ export default function RootLayout({
         <footer className="footer">
           <div className="container">
             <p className="footer-text">
-              &copy; 2026 Xbox API Frontend. Feito com ❤️ para a comunidade Xbox.
+              &copy; 2026 Xbox API Frontend. Feito com ❤️ para a comunidade
+              Xbox.
             </p>
             <p className="footer-text">
               Este projeto não é afiliado à Microsoft ou Xbox.

@@ -1,16 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  SearchBar,
-  ProfileCard,
-  GameCard,
-  AchievementCard,
-  LoadingSpinner,
-} from "@/components";
+import { SearchBar, ProfileCard, LoadingSpinner } from "@/components";
 import { profileAPI } from "@/lib";
-import { XboxProfile, XboxGame, Achievement } from "@/types";
-import Link from "next/link";
+import { XboxProfile } from "@/types";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,56 +17,17 @@ export default function HomePage() {
     gamerScore: 125450,
     accountTier: "Gold",
     xboxOneRep: "GoodPlayer",
-    preferredColor: { primaryColor: "#107c10", secondaryColor: "#0e6e0e", tertiaryColor: "#005a00" },
+    preferredColor: {
+      primaryColor: "#107c10",
+      secondaryColor: "#0e6e0e",
+      tertiaryColor: "#005a00",
+    },
     realName: "João Silva",
     bio: "Gamer apaixonado por jogos",
     location: "São Paulo, Brasil",
     tenure: 8,
     avatar: "/api/placeholder/100/100",
   };
-
-  const featuredGames: XboxGame[] = [
-    {
-      id: 1,
-      name: "Halo Infinite",
-      genre: ["Shooter", "Action"],
-      developers: ["343 Industries"],
-      publishers: ["Microsoft Studios"],
-      releaseDates: { Japan: "2021-12-08", NorthAmerica: "2021-12-08", Europe: "2021-12-08", Australia: "2021-12-08" },
-    },
-    {
-      id: 2,
-      name: "Forza Horizon 5",
-      genre: ["Racing", "Sports"],
-      developers: ["Playground Games"],
-      publishers: ["Microsoft Studios"],
-      releaseDates: { Japan: "2021-11-09", NorthAmerica: "2021-11-09", Europe: "2021-11-09", Australia: "2021-11-09" },
-    },
-  ];
-
-  const achievements: Achievement[] = [
-    {
-      id: "1",
-      serviceConfigId: "s1",
-      name: "Primeira Vitória",
-      titleAssociations: [{ name: "Halo Infinite", id: 219630713 }],
-      progressState: "Achieved",
-      progression: { achievementState: "Achieved", requirements: [{ id: "1", current: "1", target: "1" }], timeUnlocked: "2024-01-15T10:30:00Z" },
-      mediaAssets: [{ name: "Icon", type: "Icon", url: "/api/placeholder/60/60" }],
-      platform: "Xbox",
-      isSecret: false,
-      description: "Ganhe sua primeira partida",
-      lockedDescription: "",
-      productId: "p1",
-      achievementType: "Standard",
-      participationType: "Individual",
-      timeWindow: { startDate: "", endDate: "" },
-      rewards: [{ name: "Gamerscore", description: "Points", value: "15", type: "Gamerscore", valueType: "Int" }],
-      estimatedTime: "5 min",
-      deeplink: "",
-      isRevoked: false,
-    },
-  ];
 
   const handleSearch = async (query: string) => {
     setIsLoading(true);
@@ -96,8 +50,186 @@ export default function HomePage() {
   };
 
   return (
-    <div style={{ position: 'relative', zIndex: 1 }}>
-      {/* Hero Espetacular */}
+    <div>
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="container">
+          <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+            <span style={{
+              display: "inline-block",
+              padding: "0.5rem 1.5rem",
+              marginBottom: "1.5rem",
+              borderRadius: "9999px",
+              background: "rgba(16, 124, 16, 0.1)",
+              border: "1px solid var(--border-color)",
+              fontSize: "0.875rem",
+              fontWeight: 600,
+              color: "var(--xbox-green-light)",
+            }}>
+              🎮 Gaming Hub
+            </span>
+            
+            <h1 className="hero-title">
+              Explore o Universo Xbox
+            </h1>
+            
+            <p className="hero-subtitle">
+              Descubra perfis, conquistas e estatísticas em tempo real com a plataforma Xbox API
+            </p>
+            
+            <div style={{ maxWidth: "600px", margin: "0 auto 2rem" }}>
+              <SearchBar
+                onSearch={handleSearch}
+                placeholder="Buscar gamertag..."
+                isLoading={isLoading}
+              />
+            </div>
+            
+            <div style={{
+              display: "flex",
+              gap: "2rem",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              fontSize: "0.875rem",
+              color: "var(--text-muted)",
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <span>⚡</span>
+                <span>Tempo Real</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <span>🎯</span>
+                <span>Conquistas</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <span>📊</span>
+                <span>Estatísticas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Results Section */}
+      {isLoading && (
+        <div className="loading-container">
+          <LoadingSpinner />
+        </div>
+      )}
+
+      {error && (
+        <div className="container" style={{ textAlign: "center", padding: "2rem 0" }}>
+          <p style={{ color: "var(--text-muted)" }}>{error}</p>
+        </div>
+      )}
+
+      {!isLoading && profiles.length > 0 && (
+        <section style={{ padding: "2rem 0" }}>
+          <div className="container">
+            <h2 style={{
+              fontSize: "1.5rem",
+              fontWeight: 700,
+              marginBottom: "1.5rem",
+              color: "var(--text-primary)",
+            }}>
+              Resultados da Busca
+            </h2>
+            <div className="grid">
+              {profiles.map((profile) => (
+                <ProfileCard key={profile.xuid} profile={profile} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Features Section */}
+      <section style={{ padding: "4rem 0" }}>
+        <div className="container">
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <h2 style={{
+              fontSize: "2.5rem",
+              fontWeight: 800,
+              marginBottom: "1rem",
+              background: "linear-gradient(135deg, var(--xbox-green-light), var(--xbox-green))",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}>
+              Recursos Principais
+            </h2>
+            <p style={{ color: "var(--text-secondary)", fontSize: "1.125rem" }}>
+              Tudo que você precisa para acompanhar sua jornada no Xbox
+            </p>
+          </div>
+
+          <div className="grid">
+            <div className="card">
+              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>👤</div>
+              <h3 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "0.5rem" }}>
+                Perfis Detalhados
+              </h3>
+              <p style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
+                Visualize informações completas de qualquer gamer tag, incluindo GamerScore, tempo de conta e muito mais.
+              </p>
+            </div>
+
+            <div className="card">
+              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🎮</div>
+              <h3 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "0.5rem" }}>
+                Biblioteca de Jogos
+              </h3>
+              <p style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
+                Explore o catálogo completo de jogos Xbox com informações detalhadas sobre cada título.
+              </p>
+            </div>
+
+            <div className="card">
+              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🏆</div>
+              <h3 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "0.5rem" }}>
+                Sistema de Conquistas
+              </h3>
+              <p style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
+                Acompanhe todas as conquistas, progresso e estatísticas de cada jogo em tempo real.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section style={{
+        padding: "4rem 0",
+        background: "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%)",
+      }}>
+        <div className="container" style={{ textAlign: "center" }}>
+          <h2 style={{
+            fontSize: "2rem",
+            fontWeight: 700,
+            marginBottom: "1rem",
+            color: "var(--text-primary)",
+          }}>
+            Pronto para começar?
+          </h2>
+          <p style={{
+            fontSize: "1.125rem",
+            color: "var(--text-secondary)",
+            marginBottom: "2rem",
+            maxWidth: "600px",
+            margin: "0 auto 2rem",
+          }}>
+            Comece a explorar o universo Xbox agora mesmo. Busque qualquer gamertag e descubra um mundo de informações.
+          </p>
+          <button
+            className="btn btn-primary"
+            onClick={() => document.querySelector("input")?.focus()}
+          >
+            Começar Agora
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
       <section style={{
         position: 'relative',
         minHeight: '100vh',
