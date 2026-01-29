@@ -54,14 +54,14 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="hero">
         <div className="container">
-          <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-            <span className="badge">🎮 Gaming Hub</span>
+          <div style={{ maxWidth: "900px", margin: "0 auto", position: "relative", zIndex: 2 }}>
+            <span className="badge">🎮 Gaming Hub Powered by Xbox API</span>
 
             <h1 className="hero-title">Explore o Universo Xbox</h1>
 
             <p className="hero-subtitle">
               Descubra perfis de jogadores, conquistas épicas e estatísticas
-              detalhadas em tempo real com nossa plataforma integrada à Xbox API
+              detalhadas em tempo real. Conecte-se ao mundo Xbox como nunca antes.
             </p>
 
             <div
@@ -73,7 +73,7 @@ export default function HomePage() {
             >
               <SearchBar
                 onSearch={handleSearch}
-                placeholder="Digite uma gamertag para começar..."
+                placeholder="Digite uma gamertag para começar sua jornada..."
                 isLoading={isLoading}
               />
             </div>
@@ -81,20 +81,20 @@ export default function HomePage() {
             <div
               style={{
                 display: "flex",
-                gap: "2rem",
+                gap: "1.5rem",
                 justifyContent: "center",
                 flexWrap: "wrap",
                 animation: "fadeInUp 0.8s ease-out 0.6s both",
               }}
             >
               <div className="stat-item">
-                <span style={{ fontSize: "1.5rem" }}>⚡</span>
+                <span style={{ fontSize: "1.75rem" }}>⚡</span>
                 <div>
-                  <div className="stat-label">Dados</div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Dados em</div>
                   <div
                     style={{
-                      fontSize: "0.875rem",
-                      fontWeight: 600,
+                      fontSize: "0.9375rem",
+                      fontWeight: 700,
                       color: "var(--xbox-green-light)",
                     }}
                   >
@@ -103,13 +103,13 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="stat-item">
-                <span style={{ fontSize: "1.5rem" }}>🎯</span>
+                <span style={{ fontSize: "1.75rem" }}>🎯</span>
                 <div>
-                  <div className="stat-label">Acompanhe</div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Milhares de</div>
                   <div
                     style={{
-                      fontSize: "0.875rem",
-                      fontWeight: 600,
+                      fontSize: "0.9375rem",
+                      fontWeight: 700,
                       color: "var(--xbox-green-light)",
                     }}
                   >
@@ -118,17 +118,17 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="stat-item">
-                <span style={{ fontSize: "1.5rem" }}>📊</span>
+                <span style={{ fontSize: "1.75rem" }}>📊</span>
                 <div>
-                  <div className="stat-label">Analise</div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Análise</div>
                   <div
                     style={{
-                      fontSize: "0.875rem",
-                      fontWeight: 600,
+                      fontSize: "0.9375rem",
+                      fontWeight: 700,
                       color: "var(--xbox-green-light)",
                     }}
                   >
-                    Estatísticas
+                    Detalhada
                   </div>
                 </div>
               </div>
@@ -176,76 +176,48 @@ export default function HomePage() {
       )}
 
       {/* Features Section */}
-      <section style={{ padding: "4rem 0" }}>
+      <section style={{ padding: "5rem 0", position: "relative" }}>
         <div className="container">
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <h2
-              style={{
-                fontSize: "2.5rem",
-                fontWeight: 800,
-                marginBottom: "1rem",
-                background:
-                  "linear-gradient(135deg, var(--xbox-green-light), var(--xbox-green))",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Recursos Principais
+          <div className="section-header">
+            <h2 className="section-title">
+              Recursos Incríveis
             </h2>
-            <p style={{ color: "var(--text-secondary)", fontSize: "1.125rem" }}>
-              Tudo que você precisa para acompanhar sua jornada no Xbox
+            <p className="section-subtitle">
+              Tudo que você precisa para acompanhar sua jornada no Xbox em um só lugar
             </p>
           </div>
 
           <div className="grid">
-            <div className="card">
-              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>👤</div>
-              <h3
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: 600,
-                  marginBottom: "0.5rem",
-                }}
-              >
+            <div className="card feature-card">
+              <div className="feature-icon">👤</div>
+              <h3 className="feature-title">
                 Perfis Detalhados
               </h3>
-              <p style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
-                Visualize informações completas de qualquer gamer tag, incluindo
-                GamerScore, tempo de conta e muito mais.
+              <p className="feature-description">
+                Visualize informações completas de qualquer gamertag, incluindo
+                GamerScore, tempo de conta, conquistas e muito mais em tempo real.
               </p>
             </div>
 
-            <div className="card">
-              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🎮</div>
-              <h3
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: 600,
-                  marginBottom: "0.5rem",
-                }}
-              >
+            <div className="card feature-card">
+              <div className="feature-icon">🎮</div>
+              <h3 className="feature-title">
                 Biblioteca de Jogos
               </h3>
-              <p style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
+              <p className="feature-description">
                 Explore o catálogo completo de jogos Xbox com informações
-                detalhadas sobre cada título.
+                detalhadas, capturas de tela e análises de cada título.
               </p>
             </div>
 
-            <div className="card">
-              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🏆</div>
-              <h3
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: 600,
-                  marginBottom: "0.5rem",
-                }}
-              >
+            <div className="card feature-card">
+              <div className="feature-icon">🏆</div>
+              <h3 className="feature-title">
                 Sistema de Conquistas
               </h3>
-              <p style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
-                Acompanhe todas as conquistas, progresso e estatísticas de cada
-                jogo em tempo real.
+              <p className="feature-description">
+                Acompanhe todas as conquistas, progresso detalhado e estatísticas 
+                de cada jogo em uma interface intuitiva.
               </p>
             </div>
           </div>
@@ -255,40 +227,61 @@ export default function HomePage() {
       {/* CTA Section */}
       <section
         style={{
-          padding: "4rem 0",
-          background:
-            "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%)",
+          padding: "5rem 0",
+          background: "linear-gradient(180deg, rgba(16, 124, 16, 0.05) 0%, var(--bg-secondary) 100%)",
+          borderTop: "1px solid var(--border-color)",
+          borderBottom: "1px solid var(--border-color)",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
-        <div className="container" style={{ textAlign: "center" }}>
+        <div 
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "600px",
+            height: "600px",
+            background: "radial-gradient(circle, rgba(16, 124, 16, 0.15) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+        <div className="container" style={{ textAlign: "center", position: "relative", zIndex: 2 }}>
           <h2
             style={{
-              fontSize: "2rem",
-              fontWeight: 700,
+              fontSize: "2.5rem",
+              fontWeight: 800,
               marginBottom: "1rem",
-              color: "var(--text-primary)",
+              background: "linear-gradient(135deg, var(--xbox-green-light), var(--xbox-accent))",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
             }}
           >
-            Pronto para começar?
+            Pronto para Começar sua Jornada?
           </h2>
           <p
             style={{
-              fontSize: "1.125rem",
+              fontSize: "1.25rem",
               color: "var(--text-secondary)",
               marginBottom: "2rem",
-              maxWidth: "600px",
-              margin: "0 auto 2rem",
+              maxWidth: "700px",
+              margin: "0 auto 2.5rem",
+              lineHeight: 1.6,
             }}
           >
-            Comece a explorar o universo Xbox agora mesmo. Busque qualquer
-            gamertag e descubra um mundo de informações.
+            Comece a explorar o universo Xbox agora mesmo. Descubra perfis,
+            conquistas e muito mais em tempo real.
           </p>
-          <button
-            className="btn btn-primary"
-            onClick={() => document.querySelector("input")?.focus()}
-          >
-            Começar Agora
-          </button>
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+            <button
+              className="btn btn-primary"
+              onClick={() => document.querySelector("input")?.focus()}
+              style={{ minWidth: "180px" }}
+            >
+              🎮 Começar Agora
+            </button>
+          </div>
         </div>
       </section>
     </div>
