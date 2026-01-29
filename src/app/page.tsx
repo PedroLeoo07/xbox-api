@@ -55,24 +55,22 @@ export default function HomePage() {
       <section className="hero">
         <div className="container">
           <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-            <span className="badge">
-              🎮 Gaming Hub
-            </span>
+            <span className="badge">🎮 Gaming Hub</span>
 
-            <h1 className="hero-title">
-              Explore o Universo Xbox
-            </h1>
+            <h1 className="hero-title">Explore o Universo Xbox</h1>
 
             <p className="hero-subtitle">
-              Descubra perfis de jogadores, conquistas épicas e estatísticas detalhadas 
-              em tempo real com nossa plataforma integrada à Xbox API
+              Descubra perfis de jogadores, conquistas épicas e estatísticas
+              detalhadas em tempo real com nossa plataforma integrada à Xbox API
             </p>
 
-            <div style={{ 
-              maxWidth: "700px", 
-              margin: "0 auto 3rem",
-              animation: "fadeInUp 0.8s ease-out 0.4s both"
-            }}>
+            <div
+              style={{
+                maxWidth: "700px",
+                margin: "0 auto 3rem",
+                animation: "fadeInUp 0.8s ease-out 0.4s both",
+              }}
+            >
               <SearchBar
                 onSearch={handleSearch}
                 placeholder="Digite uma gamertag para começar..."
@@ -86,18 +84,20 @@ export default function HomePage() {
                 gap: "2rem",
                 justifyContent: "center",
                 flexWrap: "wrap",
-                animation: "fadeInUp 0.8s ease-out 0.6s both"
+                animation: "fadeInUp 0.8s ease-out 0.6s both",
               }}
             >
               <div className="stat-item">
                 <span style={{ fontSize: "1.5rem" }}>⚡</span>
                 <div>
                   <div className="stat-label">Dados</div>
-                  <div style={{ 
-                    fontSize: "0.875rem", 
-                    fontWeight: 600,
-                    color: "var(--xbox-green-light)"
-                  }}>
+                  <div
+                    style={{
+                      fontSize: "0.875rem",
+                      fontWeight: 600,
+                      color: "var(--xbox-green-light)",
+                    }}
+                  >
                     Tempo Real
                   </div>
                 </div>
@@ -106,11 +106,13 @@ export default function HomePage() {
                 <span style={{ fontSize: "1.5rem" }}>🎯</span>
                 <div>
                   <div className="stat-label">Acompanhe</div>
-                  <div style={{ 
-                    fontSize: "0.875rem", 
-                    fontWeight: 600,
-                    color: "var(--xbox-green-light)"
-                  }}>
+                  <div
+                    style={{
+                      fontSize: "0.875rem",
+                      fontWeight: 600,
+                      color: "var(--xbox-green-light)",
+                    }}
+                  >
                     Conquistas
                   </div>
                 </div>
@@ -119,11 +121,13 @@ export default function HomePage() {
                 <span style={{ fontSize: "1.5rem" }}>📊</span>
                 <div>
                   <div className="stat-label">Analise</div>
-                  <div style={{ 
-                    fontSize: "0.875rem", 
-                    fontWeight: 600,
-                    color: "var(--xbox-green-light)"
-                  }}>
+                  <div
+                    style={{
+                      fontSize: "0.875rem",
+                      fontWeight: 600,
+                      color: "var(--xbox-green-light)",
+                    }}
+                  >
                     Estatísticas
                   </div>
                 </div>
