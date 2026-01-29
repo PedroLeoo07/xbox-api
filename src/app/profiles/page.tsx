@@ -181,7 +181,10 @@ export default function ProfilesPage() {
       {/* Features Section */}
       {!searchQuery && (
         <section className="mb-12" style={{ marginTop: "4rem" }}>
-          <h2 className="section-title" style={{ fontSize: "2rem", marginBottom: "2rem" }}>
+          <h2
+            className="section-title"
+            style={{ fontSize: "2rem", marginBottom: "2rem" }}
+          >
             Recursos de Perfis
           </h2>
           <div className="grid">
@@ -229,22 +232,48 @@ export default function ProfilesPage() {
       {/* Help Section */}
       {!searchQuery && (
         <section style={{ textAlign: "center", marginTop: "4rem" }}>
-          <div className="card" style={{ maxWidth: "800px", margin: "0 auto", padding: "2.5rem" }}>
+          <div
+            className="card"
+            style={{ maxWidth: "800px", margin: "0 auto", padding: "2.5rem" }}
+          >
             <h3 className="feature-title" style={{ marginBottom: "1.5rem" }}>
               💡 Como Buscar Perfis
             </h3>
-            <div style={{ textAlign: "left", color: "var(--text-secondary)", fontSize: "1rem", lineHeight: "1.8" }}>
+            <div
+              style={{
+                textAlign: "left",
+                color: "var(--text-secondary)",
+                fontSize: "1rem",
+                lineHeight: "1.8",
+              }}
+            >
               <p style={{ marginBottom: "1rem" }}>
-                • <strong style={{ color: "var(--xbox-green-light)" }}>Gamertag:</strong> Digite o nome de usuário exato do Xbox
+                •{" "}
+                <strong style={{ color: "var(--xbox-green-light)" }}>
+                  Gamertag:
+                </strong>{" "}
+                Digite o nome de usuário exato do Xbox
               </p>
               <p style={{ marginBottom: "1rem" }}>
-                • <strong style={{ color: "var(--xbox-green-light)" }}>Nome Real:</strong> Busque pelo nome real do jogador
+                •{" "}
+                <strong style={{ color: "var(--xbox-green-light)" }}>
+                  Nome Real:
+                </strong>{" "}
+                Busque pelo nome real do jogador
               </p>
               <p style={{ marginBottom: "1rem" }}>
-                • <strong style={{ color: "var(--xbox-green-light)" }}>Localização:</strong> Encontre jogadores por cidade ou país
+                •{" "}
+                <strong style={{ color: "var(--xbox-green-light)" }}>
+                  Localização:
+                </strong>{" "}
+                Encontre jogadores por cidade ou país
               </p>
               <p>
-                • <strong style={{ color: "var(--xbox-green-light)" }}>Dicas:</strong> Use termos específicos para melhores resultados
+                •{" "}
+                <strong style={{ color: "var(--xbox-green-light)" }}>
+                  Dicas:
+                </strong>{" "}
+                Use termos específicos para melhores resultados
               </p>
             </div>
           </div>

@@ -226,33 +226,77 @@ export default function GamesPage() {
       {/* Seção de estatísticas - só mostra quando tem dados carregados */}
       {!isLoading && games.length > 0 && (
         <section className="mt-12" style={{ marginTop: "5rem" }}>
-          <h2 className="section-title" style={{ fontSize: "2rem", marginBottom: "2.5rem" }}>
+          <h2
+            className="section-title"
+            style={{ fontSize: "2rem", marginBottom: "2.5rem" }}
+          >
             Estatísticas do Catálogo
           </h2>
-          <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+          <div
+            className="grid"
+            style={{
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            }}
+          >
             <div className="card feature-card">
-              <div style={{ fontSize: "2.5rem", fontWeight: 900, color: "var(--xbox-green-light)", marginBottom: "0.5rem" }}>
+              <div
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: 900,
+                  color: "var(--xbox-green-light)",
+                  marginBottom: "0.5rem",
+                }}
+              >
                 {games.length}
               </div>
-              <div style={{ color: "var(--text-muted)", fontSize: "1rem" }}>Jogos Disponíveis</div>
+              <div style={{ color: "var(--text-muted)", fontSize: "1rem" }}>
+                Jogos Disponíveis
+              </div>
             </div>
             <div className="card feature-card">
-              <div style={{ fontSize: "2.5rem", fontWeight: 900, color: "var(--xbox-accent)", marginBottom: "0.5rem" }}>
+              <div
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: 900,
+                  color: "var(--xbox-accent)",
+                  marginBottom: "0.5rem",
+                }}
+              >
                 {getAllGenres().length}
               </div>
-              <div style={{ color: "var(--text-muted)", fontSize: "1rem" }}>Gêneros</div>
+              <div style={{ color: "var(--text-muted)", fontSize: "1rem" }}>
+                Gêneros
+              </div>
             </div>
             <div className="card feature-card">
-              <div style={{ fontSize: "2.5rem", fontWeight: 900, color: "var(--xbox-purple)", marginBottom: "0.5rem" }}>
+              <div
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: 900,
+                  color: "var(--xbox-purple)",
+                  marginBottom: "0.5rem",
+                }}
+              >
                 {new Set(games.flatMap((g) => g.publishers)).size}
               </div>
-              <div style={{ color: "var(--text-muted)", fontSize: "1rem" }}>Publishers</div>
+              <div style={{ color: "var(--text-muted)", fontSize: "1rem" }}>
+                Publishers
+              </div>
             </div>
             <div className="card feature-card">
-              <div style={{ fontSize: "2.5rem", fontWeight: 900, color: "var(--xbox-blue)", marginBottom: "0.5rem" }}>
+              <div
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: 900,
+                  color: "var(--xbox-blue)",
+                  marginBottom: "0.5rem",
+                }}
+              >
                 {getAllDevelopers().length}
               </div>
-              <div style={{ color: "var(--text-muted)", fontSize: "1rem" }}>Desenvolvedores</div>
+              <div style={{ color: "var(--text-muted)", fontSize: "1rem" }}>
+                Desenvolvedores
+              </div>
             </div>
           </div>
         </section>
