@@ -311,9 +311,9 @@ const AchievementsPage: React.FC = () => {
   return (
     <div className="container py-8">
       {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Conquistas Xbox</h1>
-        <p className="text-xl text-muted mb-8 max-w-2xl mx-auto">
+      <div className="section-header">
+        <h1 className="section-title">Conquistas Xbox</h1>
+        <p className="section-subtitle">
           Explore conquistas desbloqueadas, acompanhe seu progresso e descubra
           novos desafios nos seus jogos favoritos do Xbox.
         </p>
@@ -321,24 +321,54 @@ const AchievementsPage: React.FC = () => {
 
       {/* Search and Stats */}
       <section className="mb-8">
-        <div className="grid grid-3 gap-4 mb-6">
-          <div className="card text-center">
-            <div className="text-2xl font-bold text-primary">
+        <div
+          className="grid"
+          style={{
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            marginBottom: "2rem",
+          }}
+        >
+          <div className="card feature-card">
+            <div
+              style={{
+                fontSize: "2.25rem",
+                fontWeight: 900,
+                color: "var(--xbox-green-light)",
+              }}
+            >
               {displayedAchievements.length}
             </div>
-            <div className="text-muted text-sm">Total de Conquistas</div>
+            <div style={{ color: "var(--text-muted)", fontSize: "0.9375rem" }}>
+              Total de Conquistas
+            </div>
           </div>
-          <div className="card text-center">
-            <div className="text-2xl font-bold text-success">
+          <div className="card feature-card">
+            <div
+              style={{
+                fontSize: "2.25rem",
+                fontWeight: 900,
+                color: "var(--xbox-accent)",
+              }}
+            >
               {unlockedCount}
             </div>
-            <div className="text-muted text-sm">Desbloqueadas</div>
+            <div style={{ color: "var(--text-muted)", fontSize: "0.9375rem" }}>
+              Desbloqueadas
+            </div>
           </div>
-          <div className="card text-center">
-            <div className="text-2xl font-bold text-warning">
+          <div className="card feature-card">
+            <div
+              style={{
+                fontSize: "2.25rem",
+                fontWeight: 900,
+                color: "var(--xbox-gold)",
+              }}
+            >
               {totalGamerscore.toLocaleString()}G
             </div>
-            <div className="text-muted text-sm">Gamerscore Total</div>
+            <div style={{ color: "var(--text-muted)", fontSize: "0.9375rem" }}>
+              Gamerscore Total
+            </div>
           </div>
         </div>
 
@@ -422,30 +452,46 @@ const AchievementsPage: React.FC = () => {
 
       {/* Achievement Types Overview */}
       {!searchQuery && !selectedFilter && (
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 text-center">
+        <section className="mb-12" style={{ marginTop: "5rem" }}>
+          <h2
+            className="section-title"
+            style={{ fontSize: "2rem", marginBottom: "2.5rem" }}
+          >
             Tipos de Conquistas
           </h2>
-          <div className="grid grid-4 gap-4">
-            <div className="card text-center">
-              <div className="text-3xl mb-2">🏆</div>
-              <h3 className="font-semibold">Standard</h3>
-              <p className="text-sm text-muted">Conquistas básicas do jogo</p>
+          <div
+            className="grid"
+            style={{
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            }}
+          >
+            <div className="card feature-card">
+              <div className="feature-icon" style={{ fontSize: "2.5rem" }}>
+                🏆
+              </div>
+              <h3 className="feature-title">Standard</h3>
+              <p className="feature-description">Conquistas básicas do jogo</p>
             </div>
-            <div className="card text-center">
-              <div className="text-3xl mb-2">💎</div>
-              <h3 className="font-semibold">Rare</h3>
-              <p className="text-sm text-muted">Conquistas raras e difíceis</p>
+            <div className="card feature-card">
+              <div className="feature-icon" style={{ fontSize: "2.5rem" }}>
+                💎
+              </div>
+              <h3 className="feature-title">Rare</h3>
+              <p className="feature-description">Conquistas raras e difíceis</p>
             </div>
-            <div className="card text-center">
-              <div className="text-3xl mb-2">⚡</div>
-              <h3 className="font-semibold">Challenge</h3>
-              <p className="text-sm text-muted">Desafios específicos</p>
+            <div className="card feature-card">
+              <div className="feature-icon" style={{ fontSize: "2.5rem" }}>
+                ⚡
+              </div>
+              <h3 className="feature-title">Challenge</h3>
+              <p className="feature-description">Desafios específicos</p>
             </div>
-            <div className="card text-center">
-              <div className="text-3xl mb-2">🤐</div>
-              <h3 className="font-semibold">Secret</h3>
-              <p className="text-sm text-muted">Conquistas secretas</p>
+            <div className="card feature-card">
+              <div className="feature-icon" style={{ fontSize: "2.5rem" }}>
+                🤐
+              </div>
+              <h3 className="feature-title">Secret</h3>
+              <p className="feature-description">Conquistas secretas</p>
             </div>
           </div>
         </section>
@@ -453,39 +499,94 @@ const AchievementsPage: React.FC = () => {
 
       {/* Progress Overview */}
       {!searchQuery && !selectedFilter && (
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 text-center">
+        <section style={{ marginBottom: "5rem" }}>
+          <h2
+            className="section-title"
+            style={{ fontSize: "2rem", marginBottom: "2.5rem" }}
+          >
             Progresso Geral
           </h2>
-          <div className="card max-w-2xl mx-auto">
-            <div className="mb-4">
-              <div className="flex justify-between text-sm mb-2">
+          <div
+            className="card"
+            style={{ maxWidth: "800px", margin: "0 auto", padding: "2.5rem" }}
+          >
+            <div style={{ marginBottom: "2rem" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  fontSize: "0.9375rem",
+                  marginBottom: "0.75rem",
+                  color: "var(--text-secondary)",
+                }}
+              >
                 <span>Conquistas Desbloqueadas</span>
-                <span>
+                <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>
                   {unlockedCount} / {mockAchievements.length}
                 </span>
               </div>
-              <div className="progress">
+              <div
+                style={{
+                  height: "12px",
+                  background: "var(--bg-elevated)",
+                  borderRadius: "var(--radius-full)",
+                  overflow: "hidden",
+                  boxShadow: "var(--shadow-inset)",
+                }}
+              >
                 <div
-                  className="progress-bar"
                   style={{
                     width: `${(unlockedCount / mockAchievements.length) * 100}%`,
+                    height: "100%",
+                    background: "var(--gradient-primary)",
+                    borderRadius: "var(--radius-full)",
+                    transition: "width 0.6s ease",
+                    boxShadow: "var(--shadow-glow)",
                   }}
                 />
               </div>
             </div>
-            <div className="grid grid-2 gap-4 text-center">
+            <div
+              className="grid"
+              style={{
+                gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+                gap: "2rem",
+                textAlign: "center",
+              }}
+            >
               <div>
-                <div className="text-lg font-bold text-success">
+                <div
+                  style={{
+                    fontSize: "2rem",
+                    fontWeight: 900,
+                    color: "var(--xbox-green-light)",
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   {Math.round((unlockedCount / mockAchievements.length) * 100)}%
                 </div>
-                <div className="text-muted text-sm">Completado</div>
+                <div
+                  style={{ color: "var(--text-muted)", fontSize: "0.9375rem" }}
+                >
+                  Completado
+                </div>
               </div>
               <div>
-                <div className="text-lg font-bold text-primary">
+                <div
+                  style={{
+                    fontSize: "2rem",
+                    fontWeight: 900,
+                    color: "var(--xbox-gold)",
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   {totalGamerscore.toLocaleString()}
                 </div>
-                <div className="text-muted text-sm">Gamerscore Obtido</div>
+                <div
+                  style={{ color: "var(--text-muted)", fontSize: "0.9375rem" }}
+                >
+                  Gamerscore Obtido
+                </div>
               </div>
             </div>
           </div>
@@ -493,26 +594,52 @@ const AchievementsPage: React.FC = () => {
       )}
 
       {/* Help Section */}
-      <section className="text-center">
-        <div className="card max-w-2xl mx-auto">
-          <h3 className="text-xl font-bold mb-4">Como Funciona</h3>
-          <div className="text-left text-muted space-y-2">
-            <p>
-              • <strong>Desbloqueadas:</strong> Conquistas já completadas pelo
-              jogador
+      <section style={{ textAlign: "center" }}>
+        <div
+          className="card"
+          style={{ maxWidth: "800px", margin: "0 auto", padding: "2.5rem" }}
+        >
+          <h3 className="feature-title" style={{ marginBottom: "1.5rem" }}>
+            💡 Como Funciona
+          </h3>
+          <div
+            style={{
+              textAlign: "left",
+              color: "var(--text-secondary)",
+              fontSize: "1rem",
+              lineHeight: "1.8",
+            }}
+          >
+            <p style={{ marginBottom: "1rem" }}>
+              •{" "}
+              <strong style={{ color: "var(--xbox-green-light)" }}>
+                Desbloqueadas:
+              </strong>{" "}
+              Conquistas já completadas pelo jogador
+            </p>
+            <p style={{ marginBottom: "1rem" }}>
+              •{" "}
+              <strong style={{ color: "var(--xbox-accent)" }}>
+                Em Progresso:
+              </strong>{" "}
+              Conquistas com progresso parcial
+            </p>
+            <p style={{ marginBottom: "1rem" }}>
+              •{" "}
+              <strong style={{ color: "var(--xbox-blue)" }}>
+                Não Iniciadas:
+              </strong>{" "}
+              Conquistas ainda não começadas
+            </p>
+            <p style={{ marginBottom: "1rem" }}>
+              •{" "}
+              <strong style={{ color: "var(--xbox-purple)" }}>Secretas:</strong>{" "}
+              Conquistas com critérios ocultos
             </p>
             <p>
-              • <strong>Em Progresso:</strong> Conquistas com progresso parcial
-            </p>
-            <p>
-              • <strong>Não Iniciadas:</strong> Conquistas ainda não começadas
-            </p>
-            <p>
-              • <strong>Secretas:</strong> Conquistas com critérios ocultos
-            </p>
-            <p>
-              • <strong>Gamerscore:</strong> Pontos obtidos por conquistar
-              achievements
+              •{" "}
+              <strong style={{ color: "var(--xbox-gold)" }}>Gamerscore:</strong>{" "}
+              Pontos obtidos por conquistar achievements
             </p>
           </div>
         </div>
