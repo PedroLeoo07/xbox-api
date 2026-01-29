@@ -109,9 +109,9 @@ export default function ProfilesPage() {
   return (
     <div className="container py-8">
       {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Perfis Xbox</h1>
-        <p className="text-xl text-muted mb-8 max-w-2xl mx-auto">
+      <div className="section-header">
+        <h1 className="section-title">Perfis Xbox</h1>
+        <p className="section-subtitle">
           Busque e explore perfis de jogadores Xbox. Descubra estatísticas,
           conquistas e informações detalhadas sobre qualquer gamertag.
         </p>
@@ -180,29 +180,29 @@ export default function ProfilesPage() {
 
       {/* Features Section */}
       {!searchQuery && (
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 text-center">
+        <section className="mb-12" style={{ marginTop: "4rem" }}>
+          <h2 className="section-title" style={{ fontSize: "2rem", marginBottom: "2rem" }}>
             Recursos de Perfis
           </h2>
-          <div className="grid grid-3 gap-6">
-            <div className="card text-center">
-              <div className="text-4xl mb-4">📊</div>
-              <h3 className="font-semibold mb-2">Estatísticas Detalhadas</h3>
-              <p className="text-sm text-muted">
+          <div className="grid">
+            <div className="card feature-card">
+              <div className="feature-icon">📊</div>
+              <h3 className="feature-title">Estatísticas Detalhadas</h3>
+              <p className="feature-description">
                 Veja gamerscore, tempo no Xbox, reputação e muito mais.
               </p>
             </div>
-            <div className="card text-center">
-              <div className="text-4xl mb-4">🎮</div>
-              <h3 className="font-semibold mb-2">Jogos Recentes</h3>
-              <p className="text-sm text-muted">
+            <div className="card feature-card">
+              <div className="feature-icon">🎮</div>
+              <h3 className="feature-title">Jogos Recentes</h3>
+              <p className="feature-description">
                 Descubra quais jogos o jogador tem jogado recentemente.
               </p>
             </div>
-            <div className="card text-center">
-              <div className="text-4xl mb-4">🏆</div>
-              <h3 className="font-semibold mb-2">Conquistas</h3>
-              <p className="text-sm text-muted">
+            <div className="card feature-card">
+              <div className="feature-icon">🏆</div>
+              <h3 className="feature-title">Conquistas</h3>
+              <p className="feature-description">
                 Explore todas as conquistas desbloqueadas pelo jogador.
               </p>
             </div>
@@ -228,24 +228,23 @@ export default function ProfilesPage() {
 
       {/* Help Section */}
       {!searchQuery && (
-        <section className="text-center">
-          <div className="card max-w-2xl mx-auto">
-            <h3 className="text-xl font-bold mb-4">Como Buscar Perfis</h3>
-            <div className="text-left text-muted space-y-2">
-              <p>
-                • <strong>Gamertag:</strong> Digite o nome de usuário exato do
-                Xbox
+        <section style={{ textAlign: "center", marginTop: "4rem" }}>
+          <div className="card" style={{ maxWidth: "800px", margin: "0 auto", padding: "2.5rem" }}>
+            <h3 className="feature-title" style={{ marginBottom: "1.5rem" }}>
+              💡 Como Buscar Perfis
+            </h3>
+            <div style={{ textAlign: "left", color: "var(--text-secondary)", fontSize: "1rem", lineHeight: "1.8" }}>
+              <p style={{ marginBottom: "1rem" }}>
+                • <strong style={{ color: "var(--xbox-green-light)" }}>Gamertag:</strong> Digite o nome de usuário exato do Xbox
+              </p>
+              <p style={{ marginBottom: "1rem" }}>
+                • <strong style={{ color: "var(--xbox-green-light)" }}>Nome Real:</strong> Busque pelo nome real do jogador
+              </p>
+              <p style={{ marginBottom: "1rem" }}>
+                • <strong style={{ color: "var(--xbox-green-light)" }}>Localização:</strong> Encontre jogadores por cidade ou país
               </p>
               <p>
-                • <strong>Nome Real:</strong> Busque pelo nome real do jogador
-              </p>
-              <p>
-                • <strong>Localização:</strong> Encontre jogadores por cidade ou
-                país
-              </p>
-              <p>
-                • <strong>Dicas:</strong> Use termos específicos para melhores
-                resultados
+                • <strong style={{ color: "var(--xbox-green-light)" }}>Dicas:</strong> Use termos específicos para melhores resultados
               </p>
             </div>
           </div>
