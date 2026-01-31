@@ -141,10 +141,13 @@
   --radius-2xl: 2rem;
   --radius-full: 9999px;
 
-  /* Blur Effects */
-  --blur-sm: 8px;
-  --blur-md: 16px;
-  --blur-lg: 24px;
+  /* Blur Effects - Optimized */
+  --blur-sm: 4px;
+  --blur-md: 8px;
+  --blur-lg: 12px;
+
+  /* Performance */
+  --gpu-acceleration: translateZ(0);
 }
 
 *,
@@ -173,9 +176,13 @@ body {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  /* Performance optimizations */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
 }
 
-/* Enhanced ambient lighting effects */
+/* Enhanced ambient lighting effects - Optimized */
 body::before {
   content: "";
   position: fixed;
@@ -199,22 +206,24 @@ body::before {
       rgba(142, 68, 173, 0.08) 0%,
       transparent 50%
     );
-  animation: ambientMove 20s ease-in-out infinite;
+  animation: ambientMove 30s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
+  transform: var(--gpu-acceleration);
 }
 
 @keyframes ambientMove {
   0%,
   100% {
-    transform: translate(0, 0);
+    transform: translate(0, 0) translateZ(0);
   }
   50% {
-    transform: translate(-5%, 5%);
+    transform: translate(-5%, 5%) translateZ(0);
   }
 }
 
-/* Animated grid pattern */
+/* Animated grid pattern - Optimized */
 body::after {
   content: "";
   position: fixed;
@@ -223,23 +232,15 @@ body::after {
   right: 0;
   bottom: 0;
   background-image:
-    linear-gradient(rgba(16, 124, 16, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 124, 16, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(16, 124, 16, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 124, 16, 0.02) 1px, transparent 1px);
   background-size: 100px 100px;
-  animation: gridMove 30s linear infinite;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
-@keyframes gridMove {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100px 100px;
-  }
-}
+/* Removed animation for better performance */
 
 .container {
   max-width: 1280px;
@@ -247,21 +248,24 @@ body::after {
   padding: 0 var(--spacing-lg);
   position: relative;
   z-index: 1;
+  contain: layout style;
 }
 
-/* Navbar - Enhanced Glassmorphism */
+/* Navbar - Enhanced Glassmorphism - Optimized */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
   background: var(--bg-glass);
   border-bottom: 1px solid var(--border-color);
-  backdrop-filter: blur(var(--blur-lg)) saturate(180%);
-  -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(180%);
+  backdrop-filter: blur(var(--blur-md)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(180%);
   box-shadow:
     0 4px 30px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(16, 124, 16, 0.1) inset;
   transition: var(--transition);
+  will-change: transform;
+  contain: layout style paint;
 }
 
 .navbar::before {
@@ -279,19 +283,10 @@ body::after {
     var(--xbox-green) 70%,
     transparent 100%
   );
-  opacity: 0.3;
-  animation: shimmerLine 3s ease-in-out infinite;
+  opacity: 0.4;
 }
 
-@keyframes shimmerLine {
-  0%,
-  100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
+/* Removed shimmer animation for better performance */
 
 .navbar-container {
   max-width: 1200px;
@@ -335,21 +330,24 @@ body::after {
     var(--xbox-green-light),
     var(--xbox-accent-light)
   );
-  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.02em;
-  animation: gradientShift 4s ease-in-out infinite;
+}
+
+/* Logo hover animation only */
+.navbar-logo:hover .logo-title {
+  animation: gradientShift 2s ease-in-out;
 }
 
 @keyframes gradientShift {
   0%,
   100% {
-    background-position: 0% center;
+    filter: brightness(1);
   }
   50% {
-    background-position: 100% center;
+    filter: brightness(1.2);
   }
 }
 
@@ -533,9 +531,10 @@ body::after {
   text-align: center;
   position: relative;
   overflow: hidden;
+  contain: layout style;
 }
 
-/* Animated background particles */
+/* Animated background particles - Optimized */
 .hero::before {
   content: "";
   position: absolute;
@@ -560,19 +559,11 @@ body::after {
       rgba(142, 68, 173, 0.05) 0%,
       transparent 60%
     );
-  animation: heroFloat 10s ease-in-out infinite;
   pointer-events: none;
+  will-change: transform;
 }
 
-@keyframes heroFloat {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-}
+/* Removed constant animation for better performance */
 
 .hero-title {
   font-size: clamp(2.5rem, 5vw, 5rem);
@@ -586,28 +577,31 @@ body::after {
     #00d4aa 75%,
     #16c716 100%
   );
-  background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  animation:
-    fadeInUp 0.8s ease-out,
-    shimmerEnhanced 6s linear infinite;
+  animation: fadeInUp 0.8s ease-out;
   position: relative;
-  text-shadow:
-    0 0 80px rgba(16, 124, 16, 0.5),
-    0 0 120px rgba(0, 212, 170, 0.3);
   filter: drop-shadow(0 4px 20px rgba(16, 124, 16, 0.4));
+  will-change: opacity, transform;
+}
+
+/* Shimmer only on hover for performance */
+.hero-title:hover {
+  animation: shimmerEnhanced 3s linear;
 }
 
 @keyframes shimmerEnhanced {
   0% {
-    background-position: 0% center;
+    filter: drop-shadow(0 4px 20px rgba(16, 124, 16, 0.4)) brightness(1);
+  }
+  50% {
+    filter: drop-shadow(0 4px 25px rgba(16, 124, 16, 0.6)) brightness(1.1);
   }
   100% {
-    background-position: 300% center;
+    filter: drop-shadow(0 4px 20px rgba(16, 124, 16, 0.4)) brightness(1);
   }
 }
 
@@ -642,8 +636,10 @@ body::after {
   transition: var(--transition);
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(var(--blur-md));
-  -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-sm));
+  -webkit-backdrop-filter: blur(var(--blur-sm));
+  will-change: transform;
+  contain: layout style paint;
 }
 
 /* Gradient overlay */
@@ -708,15 +704,15 @@ body::after {
 
 .card:hover::after {
   opacity: 1;
-  animation: rotate 4s linear infinite;
 }
 
+/* Removed rotation animation for better performance */
 @keyframes rotate {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(0deg) translateZ(0);
   }
   100% {
-    transform: rotate(360deg);
+    transform: rotate(360deg) translateZ(0);
   }
 }
 
@@ -905,10 +901,13 @@ body::after {
   }
 }
 
-/* Shimmer animation utility */
+/* Shimmer animation utility - Optimized */
 .shimmer {
   background-size: 200% auto;
-  animation: shimmerMove 3s linear infinite;
+}
+
+.shimmer:hover {
+  animation: shimmerMove 2s linear;
 }
 
 @keyframes shimmerMove {
@@ -931,8 +930,9 @@ body::after {
   font-size: 1rem;
   transition: var(--transition);
   outline: none;
-  backdrop-filter: blur(var(--blur-md));
-  -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-sm));
+  -webkit-backdrop-filter: blur(var(--blur-sm));
+  will-change: transform, box-shadow;
 }
 
 .search-input:focus {
@@ -970,13 +970,12 @@ body::after {
   box-shadow:
     0 4px 12px rgba(16, 124, 16, 0.3),
     0 0 0 1px rgba(16, 124, 16, 0.2) inset;
-  animation:
-    fadeInUp 0.8s ease-out,
-    badgePulse 3s ease-in-out infinite;
-  backdrop-filter: blur(var(--blur-md));
-  -webkit-backdrop-filter: blur(var(--blur-md));
+  animation: fadeInUp 0.8s ease-out;
+  backdrop-filter: blur(var(--blur-sm));
+  -webkit-backdrop-filter: blur(var(--blur-sm));
   position: relative;
   overflow: hidden;
+  will-change: transform;
 }
 
 .badge::before {
@@ -987,32 +986,15 @@ body::after {
   width: 100%;
   height: 100%;
   background: var(--gradient-shine);
-  animation: badgeShine 3s ease-in-out infinite;
+  transition: left 0.6s ease;
 }
 
-@keyframes badgeShine {
-  0%,
-  100% {
-    left: -100%;
-  }
-  50% {
-    left: 100%;
-  }
+/* Shine on hover only */
+.badge:hover::before {
+  left: 100%;
 }
 
-@keyframes badgePulse {
-  0%,
-  100% {
-    box-shadow:
-      0 4px 12px rgba(16, 124, 16, 0.3),
-      0 0 0 1px rgba(16, 124, 16, 0.2) inset;
-  }
-  50% {
-    box-shadow:
-      0 4px 20px rgba(16, 124, 16, 0.5),
-      0 0 0 1px rgba(16, 124, 16, 0.4) inset;
-  }
-}
+/* Removed pulse animation for better performance */
 
 .badge:hover {
   background: linear-gradient(
@@ -1070,16 +1052,23 @@ body::after {
   display: inline-block;
   transition: var(--transition-bounce);
   filter: drop-shadow(0 4px 12px rgba(16, 124, 16, 0.4));
-  animation: iconFloat 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Float animation only on hover */
+@media (hover: hover) {
+  .feature-card:hover .feature-icon {
+    animation: iconFloat 1.5s ease-in-out;
+  }
 }
 
 @keyframes iconFloat {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateY(0) translateZ(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-10px) translateZ(0);
   }
 }
 
@@ -1128,6 +1117,8 @@ body::after {
   -webkit-backdrop-filter: blur(var(--blur-sm));
   position: relative;
   overflow: hidden;
+  contain: layout style paint;
+  will-change: transform;
 }
 
 .stat-item::before {
@@ -1284,4 +1275,27 @@ body::after {
   background: var(--xbox-green);
   color: white;
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Reduce motion for accessibility and performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  body::before,
+  body::after {
+    animation: none !important;
+  }
+
+  .hero-title,
+  .badge,
+  .feature-icon {
+    animation: none !important;
+  }
 }
