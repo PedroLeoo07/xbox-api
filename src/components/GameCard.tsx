@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import { XboxGame } from "@/types";
 
 interface GameCardProps {
@@ -8,7 +8,8 @@ interface GameCardProps {
   onClick?: () => void;
 }
 
-export default function GameCard({ game, onClick }: GameCardProps) {
+// Componente memoizado para evitar re-renders desnecessários
+const GameCard = memo(function GameCard({ game, onClick }: GameCardProps) {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -149,4 +150,6 @@ export default function GameCard({ game, onClick }: GameCardProps) {
       )}
     </div>
   );
-}
+});
+
+export default GameCard;

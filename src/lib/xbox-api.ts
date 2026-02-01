@@ -15,6 +15,40 @@ const BASE_URL =
   process.env.NEXT_PUBLIC_XBOX_API_URL || "https://api.example.com";
 const API_KEY = process.env.NEXT_PUBLIC_XBOX_API_KEY;
 
+// Cache configuration
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutos
+interface CacheEntry<T> {
+  data: T;
+  timestamp: number;
+}
+const cache = new Map<string, CacheEntry<any>>();
+
+// Helper para gerenciar cache
+function getCached<T>(key: string): T | null {
+  const entry = cache.get(key);
+  if (entry && Date.now() - entry.timestamp < CACHE_TTL) {
+    return entry.data as T;
+  }
+  cache.delete(key);
+  return null;
+}
+
+function setCache<T>(key: string, data: T): void {
+  cache.set(key, { data, timestamp: Date.now() });
+}
+
+// Limpar cache periodicamente
+if (typeof window !== "undefined") {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [key, entry] of cache.entries()) {
+      if (now - entry.timestamp >= CACHE_TTL) {
+        cache.delete(key);
+      }
+    }
+  }, 60000); // Limpa cache a cada 1 minuto
+}
+
 class XboxAPIError extends Error {
   constructor(
     message: string,
@@ -26,8 +60,18 @@ class XboxAPIError extends Error {
 }
 
 async function fetchGamesAPI(): Promise<XboxGame[]> {
+  // Verificar cache primeiro
+  const cached = getCached<XboxGame[]>("all_games");
+  if (cached) {
+    console.log("✅ Retornando dados do cache");
+    return cached;
+  }
+
   try {
-    const response = await fetch(GAMES_API_URL);
+    const response = await fetch(GAMES_API_URL, {
+      next: { revalidate: 300 }, // Cache no Next.js por 5 minutos
+      signal: AbortSignal.timeout(10000), // Timeout de 10 segundos
+    });
 
     if (!response.ok) {
       console.warn(
@@ -84,16 +128,19 @@ async function fetchGamesAPI(): Promise<XboxGame[]> {
     if (cleanedData.length < 20) {
       console.log("📊 Supplementing with backup games");
       const supplementedData = [...cleanedData, ...backupGames];
-      // Remove duplicates based on name
-      const uniqueGames = supplementedData.filter(
-        (game, index, arr) =>
-          arr.findIndex(
-            (g) => g.name.toLowerCase() === game.name.toLowerCase(),
-          ) === index,
-      );
+      // Remove duplicates based on name (otimizado com Set)
+      const seen = new Set<string>();
+      const uniqueGames = supplementedData.filter((game) => {
+        const key = game.name.toLowerCase();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+      setCache("all_games", uniqueGames);
       return uniqueGames;
     }
 
+    setCache("all_games", cleanedData);
     return cleanedData;
   } catch (error) {
     console.error("❌ API fetch failed, using backup data:", error);
@@ -117,6 +164,8 @@ async function fetchWithAuth(
     const response = await fetch(url, {
       ...options,
       headers,
+      next: { revalidate: 300 }, // Cache por 5 minutos
+      signal: options.signal || AbortSignal.timeout(10000), // Timeout padrão de 10s
     });
 
     if (!response.ok) {
@@ -138,11 +187,18 @@ async function fetchWithAuth(
 // Profile API
 export const profileAPI = {
   async getProfile(gamertag: string): Promise<ApiResponse<XboxProfile>> {
+    const cacheKey = `profile_${gamertag}`;
+    const cached = getCached<XboxProfile>(cacheKey);
+    if (cached) {
+      return { success: true, data: cached };
+    }
+
     try {
       const response = await fetchWithAuth(
         `/profile/${encodeURIComponent(gamertag)}`,
       );
       const data = await response.json();
+      setCache(cacheKey, data);
       return { success: true, data };
     } catch (error) {
       return {
@@ -203,9 +259,16 @@ export const gamesAPI = {
   },
 
   async getGameById(id: number): Promise<ApiResponse<XboxGame | null>> {
+    const cacheKey = `game_${id}`;
+    const cached = getCached<XboxGame | null>(cacheKey);
+    if (cached !== null) {
+      return { success: true, data: cached };
+    }
+
     try {
       const allGames = await fetchGamesAPI();
       const game = allGames.find((g) => g.id === id);
+      setCache(cacheKey, game || null);
       return {
         success: true,
         data: game || null,

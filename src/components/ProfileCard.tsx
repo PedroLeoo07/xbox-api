@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import { XboxProfile } from "@/types";
 import Image from "next/image";
 
@@ -9,7 +9,10 @@ interface ProfileCardProps {
   onClick?: () => void;
 }
 
-export default function ProfileCard({ profile, onClick }: ProfileCardProps) {
+const ProfileCard = memo(function ProfileCard({
+  profile,
+  onClick,
+}: ProfileCardProps) {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -157,4 +160,6 @@ export default function ProfileCard({ profile, onClick }: ProfileCardProps) {
       )}
     </div>
   );
-}
+});
+
+export default ProfileCard;

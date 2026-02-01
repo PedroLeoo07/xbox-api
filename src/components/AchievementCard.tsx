@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import { Achievement } from "@/types";
 import Image from "next/image";
 
@@ -9,7 +9,7 @@ interface AchievementCardProps {
   onClick?: () => void;
 }
 
-export default function AchievementCard({
+const AchievementCard = memo(function AchievementCard({
   achievement,
   onClick,
 }: AchievementCardProps) {
@@ -153,4 +153,6 @@ export default function AchievementCard({
       </div>
     </div>
   );
-}
+});
+
+export default AchievementCard;

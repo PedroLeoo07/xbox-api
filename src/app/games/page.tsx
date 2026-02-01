@@ -1,28 +1,26 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { SearchBar, GameCard, LoadingSpinner, StatCard } from "@/components";
 import { gamesAPI } from "@/lib";
 import { XboxGame } from "@/types";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function GamesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [games, setGames] = useState<XboxGame[]>([]);
-  const [filteredGames, setFilteredGames] = useState<XboxGame[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [selectedDeveloper, setSelectedDeveloper] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
+  // Debounce search query para evitar buscas excessivas
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
   // Load all games when component mounts
   useEffect(() => {
     loadGames();
   }, []);
-
-  // Filter games when search query or filters change
-  useEffect(() => {
-    filterGames();
-  }, [games, searchQuery, selectedGenre, selectedDeveloper]);
 
   const loadGames = async () => {
     setIsLoading(true);
@@ -42,62 +40,63 @@ export default function GamesPage() {
     }
   };
 
-  const filterGames = () => {
-    let filtered = [...games];
+  // Memoização da filtragem para evitar re-computação desnecessária
+  const filteredGames = useMemo(() => {
+    let filtered = games;
 
-    // Filter by search query
-    if (searchQuery) {
+    // Filter by search query (usando debounced value)
+    if (debouncedSearchQuery) {
+      const query = debouncedSearchQuery.toLowerCase();
       filtered = filtered.filter(
         (game) =>
-          game.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          game.developers.some((dev) =>
-            dev.toLowerCase().includes(searchQuery.toLowerCase()),
-          ) ||
-          game.publishers.some((pub) =>
-            pub.toLowerCase().includes(searchQuery.toLowerCase()),
-          ),
+          game.name.toLowerCase().includes(query) ||
+          game.developers.some((dev) => dev.toLowerCase().includes(query)) ||
+          game.publishers.some((pub) => pub.toLowerCase().includes(query))
       );
     }
 
     // Filter by genre
     if (selectedGenre) {
+      const genre = selectedGenre.toLowerCase();
       filtered = filtered.filter((game) =>
-        game.genre.some((g) =>
-          g.toLowerCase().includes(selectedGenre.toLowerCase()),
-        ),
+        game.genre.some((g) => g.toLowerCase().includes(genre))
       );
     }
 
     // Filter by developer
     if (selectedDeveloper) {
+      const developer = selectedDeveloper.toLowerCase();
       filtered = filtered.filter((game) =>
-        game.developers.some((dev) =>
-          dev.toLowerCase().includes(selectedDeveloper.toLowerCase()),
-        ),
+        game.developers.some((dev) => dev.toLowerCase().includes(developer))
       );
     }
 
-    setFilteredGames(filtered);
-  };
+    return filtered;
+  }, [games, debouncedSearchQuery, selectedGenre, selectedDeveloper]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
 
-  const getAllGenres = () => {
+  // Memoização das listas de gêneros e desenvolvedores
+  const allGenres = useMemo(() => {
     const genres = new Set<string>();
     games.forEach((game) => {
       game.genre.forEach((g) => g && genres.add(g));
     });
     return Array.from(genres).sort();
-  };
+  }, [games]);
 
-  const getAllDevelopers = () => {
+  const allDevelopers = useMemo(() => {
     const developers = new Set<string>();
     games.forEach((game) => {
       game.developers.forEach((dev) => dev && developers.add(dev));
     });
     return Array.from(developers).sort();
+  }, [games]);
+
+  const getAllGenres = () => allGenres;
+  const getAllDevelopers = () => allDevelopers;
   };
 
   return (
