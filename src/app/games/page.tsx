@@ -51,7 +51,7 @@ export default function GamesPage() {
         (game) =>
           game.name.toLowerCase().includes(query) ||
           game.developers.some((dev) => dev.toLowerCase().includes(query)) ||
-          game.publishers.some((pub) => pub.toLowerCase().includes(query))
+          game.publishers.some((pub) => pub.toLowerCase().includes(query)),
       );
     }
 
@@ -59,7 +59,7 @@ export default function GamesPage() {
     if (selectedGenre) {
       const genre = selectedGenre.toLowerCase();
       filtered = filtered.filter((game) =>
-        game.genre.some((g) => g.toLowerCase().includes(genre))
+        game.genre.some((g) => g.toLowerCase().includes(genre)),
       );
     }
 
@@ -67,7 +67,7 @@ export default function GamesPage() {
     if (selectedDeveloper) {
       const developer = selectedDeveloper.toLowerCase();
       filtered = filtered.filter((game) =>
-        game.developers.some((dev) => dev.toLowerCase().includes(developer))
+        game.developers.some((dev) => dev.toLowerCase().includes(developer)),
       );
     }
 
@@ -97,7 +97,6 @@ export default function GamesPage() {
 
   const getAllGenres = () => allGenres;
   const getAllDevelopers = () => allDevelopers;
-  };
 
   return (
     <div className="container py-8">
